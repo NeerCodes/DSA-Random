@@ -16,7 +16,8 @@ Random DSA Patterns for revision.
  }
 ```
 
-### General 2-pointer pseudo code 
+### General 2-pointer pseudo code
+```java
 public boolean twoSumProblem(int[] a, int N, int X){
    //first pointer
    int left = 0;
@@ -43,8 +44,10 @@ public boolean twoSumProblem(int[] a, int N, int X){
    }
    return false;
 }
+```
 
 ### Two Sum + Sorted
+```java
 boolean pairSum(int[] a, int N, int X){
   int i = 0, j = N-1;
   while(i < j){
@@ -57,10 +60,13 @@ boolean pairSum(int[] a, int N, int X){
   }
   return false;
 }
+```
 
 
 ### Linked List Cycle
+
 //Using Set
+```java
 boolean hasCycle(ListNode head){
   Set<ListNode> set = new HashSet<>();
   while(head != null){
@@ -72,8 +78,10 @@ boolean hasCycle(ListNode head){
   }
   return false;
 }
+```
 
 //Using slow and fast pointers
+```java
 boolean hasCycle(ListNode head) {
         if (head == null || head.next == null) {
             return false;
@@ -93,9 +101,11 @@ boolean hasCycle(ListNode head) {
 
         return false; // No cycle found
     }
+```
 
 
 ### Merge 2 Sorted Lists
+```java
    if(l1.val < l2.val){
      cur.next = l1;
      l1 = l1.next;
@@ -104,6 +114,7 @@ boolean hasCycle(ListNode head) {
      cur.next = l2;
      l2 = l2.next;
    }
+```
 
 ### Merge K Sorted Lists
 - compare every 2 lists, call 'merge2sortedLists' function, and keep doing until we have a bigger list.
@@ -112,6 +123,7 @@ boolean hasCycle(ListNode head) {
 
 
 ### Slidind Window General Pseudo Code
+```java
 int max_sum = 0, window_sum = 0; 
 /* calculate sum of 1st window */
 for (int i = 0; i < k; i++)  window_sum += arr[i]; 
@@ -121,6 +133,7 @@ for (int i = k; i < n; i++){
     window_sum += arr[i] - arr[i-k];    // saving re-computation
     max_sum = max(max_sum, window_sum);
 }
+```
 
 :+1:  ↖️↗️
       ↙️↘️
