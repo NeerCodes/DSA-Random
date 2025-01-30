@@ -4,21 +4,15 @@ Random DSA Patterns for revision.
 ## ARRAYS
 #### Kadane's Algorithm
 - Used to find the maximum subarray sum.
-- 
+
+```java
   public int maxSubArray(int[] nums) {
-  
-    int maxSum = nums[0], currentSum = nums[0];
-  
+    int maxSum = nums[0], currentSum = nums[0];  
     for (int i = 1; i < nums.length; i++) {
-  
         currentSum = Math.max(nums[i], currentSum + nums[i]);
-  
         maxSum = Math.max(maxSum, currentSum);
-  
     }
-  
     return maxSum;
-  
 }
 
 ### General 2-pointer pseudo code 
