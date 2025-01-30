@@ -107,4 +107,5 @@ for (int i = k; i < n; i++){
     max_sum = max(max_sum, window_sum);
 }
 
-:+1: 
+:+1:  ↖️↗️
+      ↙️↘️
