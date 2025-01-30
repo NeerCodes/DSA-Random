@@ -26,4 +26,10 @@ public boolean twoSumProblem(int[] a, int N, int X){
        right-=1;
      }
    }
+   return false;
+}
+
+### Two Sum + Sorted
+boolean pairSum(int[] a, int N, int X){
+
    
