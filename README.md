@@ -43,4 +43,67 @@ boolean pairSum(int[] a, int N, int X){
   return false;
 }
 
-   
+
+### Linked List Cycle
+//Using Set
+boolean hasCycle(ListNode head){
+  Set<ListNode> set = new HashSet<>();
+  while(head != null){
+    if(set.contains(head)){
+      return true;
+    }
+    set.add(head);
+    head = head.next;
+  }
+  return false;
+}
+
+//Using slow and fast pointers
+boolean hasCycle(ListNode head) {
+        if (head == null || head.next == null) {
+            return false;
+        }
+
+        ListNode slow = head;  // Moves one step at a time
+        ListNode fast = head;  // Moves two steps at a time
+
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+
+            if (slow == fast) { // Cycle detected
+                return true;
+            }
+        }
+
+        return false; // No cycle found
+    }
+
+
+### Merge 2 Sorted Lists
+   if(l1.val < l2.val){
+     cur.next = l1;
+     l1 = l1.next;
+   }
+   else{
+     cur.next = l2;
+     l2 = l2.next;
+   }
+
+### Merge K Sorted Lists
+- compare every 2 lists, call 'merge2sortedLists' function, and keep doing until we have a bigger list.
+- Add all the lists into one big array or list -> sort the array -> then put the elements back into a new LL
+- Priority Queue is another option
+
+
+### Slidind Window General Pseudo Code
+int max_sum = 0, window_sum = 0; 
+/* calculate sum of 1st window */
+for (int i = 0; i < k; i++)  window_sum += arr[i]; 
+
+/* slide window from start to end in array. */
+for (int i = k; i < n; i++){ 
+    window_sum += arr[i] - arr[i-k];    // saving re-computation
+    max_sum = max(max_sum, window_sum);
+}
+
