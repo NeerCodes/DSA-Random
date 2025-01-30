@@ -16,6 +16,68 @@ Random DSA Patterns for revision.
  }
 ```
 
+### Two Pointers Technique
+- Used for problems involving arrays or strings, such as finding pairs or reversing.
+- Example: Two Sum Problem.
+```java
+public int[] twoSum(int[] nums, int target) {
+    int left = 0, right = nums.length - 1;
+    while (left < right) {
+        int sum = nums[left] + nums[right];
+        if (sum == target) {
+            return new int[]{left, right};
+        } else if (sum < target) {
+            left++;
+        } else {
+            right--;
+        }
+    }
+    return new int[]{-1, -1};
+}
+```
+
+### Sliding Window
+- Used for subarray or substring problems.
+- Example: Maximum Sum Subarray of Size K.
+```java
+public int maxSumSubarray(int[] nums, int k) {
+    int maxSum = 0, windowSum = 0;
+    for (int i = 0; i < k; i++) {
+        windowSum += nums[i];
+    }
+    maxSum = windowSum;
+    for (int i = k; i < nums.length; i++) {
+        windowSum += nums[i] - nums[i - k];
+        maxSum = Math.max(maxSum, windowSum);
+    }
+    return maxSum;
+}
+```
+
+### Merge Two Sorted Arrays
+```java
+public int[] mergeSortedArrays(int[] arr1, int[] arr2) {
+    int i = 0, j = 0, k = 0;
+    int[] result = new int[arr1.length + arr2.length];
+    while (i < arr1.length && j < arr2.length) {
+        if (arr1[i] < arr2[j]) result[k++] = arr1[i++];
+        else result[k++] = arr2[j++];
+    }
+    while (i < arr1.length) result[k++] = arr1[i++];
+    while (j < arr2.length) result[k++] = arr2[j++];
+    return result;
+}
+```
+
+
+
+
+
+
+
+
+
+
 ### General 2-pointer pseudo code
 ```java
 public boolean twoSumProblem(int[] a, int N, int X){
