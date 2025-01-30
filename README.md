@@ -31,5 +31,16 @@ public boolean twoSumProblem(int[] a, int N, int X){
 
 ### Two Sum + Sorted
 boolean pairSum(int[] a, int N, int X){
+  int i = 0, j = N-1;
+  while(i < j){
+    if(a[i]+a[j]== X) 
+      return true;
+    else if(a[i]+a[j] < X)
+      i++;
+    else 
+      j--;
+  }
+  return false;
+}
 
    
