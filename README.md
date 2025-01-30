@@ -13,7 +13,8 @@ Random DSA Patterns for revision.
         maxSum = Math.max(maxSum, currentSum);
     }
     return maxSum;
-}
+ }
+```
 
 ### General 2-pointer pseudo code 
 public boolean twoSumProblem(int[] a, int N, int X){
