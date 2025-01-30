@@ -196,7 +196,7 @@ public ListNode reverseList(ListNode head) {
 - Priority Queue is another option
 
 
-### Slidind Window General Pseudo Code
+### Sliding Window General Pseudo Code
 ```java
 int max_sum = 0, window_sum = 0; 
 /* calculate sum of 1st window */
