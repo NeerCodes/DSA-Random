@@ -124,9 +124,8 @@ boolean pairSum(int[] a, int N, int X){
 }
 ```
 
-
+## LINKED LIST
 ### Linked List Cycle
-
 //Using Set
 ```java
 boolean hasCycle(ListNode head){
@@ -165,6 +164,19 @@ boolean hasCycle(ListNode head) {
     }
 ```
 
+### Reverse a Linked List
+```java
+public ListNode reverseList(ListNode head) {
+    ListNode prev = null;
+    while (head != null) {
+        ListNode nextNode = head.next;
+        head.next = prev;
+        prev = head;
+        head = nextNode;
+    }
+    return prev;
+}
+```
 
 ### Merge 2 Sorted Lists
 ```java
@@ -196,6 +208,3 @@ for (int i = k; i < n; i++){
     max_sum = max(max_sum, window_sum);
 }
 ```
-
-:+1:  ↖️↗️
-      ↙️↘️
