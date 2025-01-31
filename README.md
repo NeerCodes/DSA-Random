@@ -208,3 +208,108 @@ for (int i = k; i < n; i++){
     max_sum = max(max_sum, window_sum);
 }
 ```
+
+## STACKS and QUEUES
+### Implement Queue using Stack
+```java
+class MyQueue {
+    Stack<Integer> stack1 = new Stack<>();
+    Stack<Integer> stack2 = new Stack<>();
+    
+    public void push(int x) {
+        stack1.push(x);
+    }
+    
+    public int pop() {
+        if (stack2.isEmpty()) {
+            while (!stack1.isEmpty()) {
+                stack2.push(stack1.pop());
+            }
+        }
+        return stack2.pop();
+    }
+}
+```
+
+### Next Greater Element
+```java
+public int[] nextGreaterElement(int[] nums) {
+    Stack<Integer> stack = new Stack<>();
+    int[] result = new int[nums.length];
+    Arrays.fill(result, -1);
+    for (int i = 0; i < nums.length; i++) {
+        while (!stack.isEmpty() && nums[stack.peek()] < nums[i]) {
+            result[stack.pop()] = nums[i];
+        }
+        stack.push(i);
+    }
+    return result;
+}
+```
+
+### Implementing a Stack
+```java
+class MyStack {
+    private List<Integer> data;
+    public MyStack() {
+        data = new ArrayList<>();
+    }
+    public void push(int x) {
+        data.add(x);
+    }
+    public int pop() {
+        return data.remove(data.size() - 1);
+    }
+    public int top() {
+        return data.get(data.size() - 1);
+    }
+    public boolean isEmpty() {
+        return data.isEmpty();
+    }
+}
+```
+
+## RECURSION and BACKTRACKING
+### Generate All Subsets (Power Set)
+```java
+public void subsets(int[] nums, int index, List<Integer> current, List<List<Integer>> result) {
+    if (index == nums.length) {
+        result.add(new ArrayList<>(current));
+        return;
+    }
+    subsets(nums, index + 1, current, result);
+    current.add(nums[index]);
+    subsets(nums, index + 1, current, result);
+    current.remove(current.size() - 1);
+}
+```
+
+### N-Queens Problem
+```java
+public boolean solveNQueens(int board[][], int row) {
+    if (row >= board.length) return true;
+    for (int i = 0; i < board.length; i++) {
+        if (isSafe(board, row, i)) {
+            board[row][i] = 1;
+            if (solveNQueens(board, row + 1)) return true;
+            board[row][i] = 0;
+        }
+    }
+    return false;
+}
+```
+
+## SEARCHING and SORTING
+### Binary Search
+```java
+public int binarySearch(int[] arr, int target) {
+    int left = 0, right = arr.length - 1;
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (arr[mid] == target) return mid;
+        if (arr[mid] < target) left = mid + 1;
+        else right = mid - 1;
+    }
+    return -1;
+}
+```
