@@ -126,7 +126,7 @@ boolean pairSum(int[] a, int N, int X){
 
 ## LINKED LIST
 ### Linked List Cycle
-//Using Set
+> Using Set
 ```java
 boolean hasCycle(ListNode head){
   Set<ListNode> set = new HashSet<>();
@@ -141,7 +141,7 @@ boolean hasCycle(ListNode head){
 }
 ```
 
-//Using slow and fast pointers
+> Using slow and fast pointers
 ```java
 boolean hasCycle(ListNode head) {
         if (head == null || head.next == null) {
