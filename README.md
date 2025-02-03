@@ -3,7 +3,7 @@ Random DSA Patterns for revision.
 
 ## ARRAYS
 #### Kadane's Algorithm
-- Used to find the maximum subarray sum.
+> Used to find the maximum subarray sum.
 
 ```java
   public int maxSubArray(int[] nums) {
@@ -17,8 +17,8 @@ Random DSA Patterns for revision.
 ```
 
 ### Two Pointers Technique
-- Used for problems involving arrays or strings, such as finding pairs or reversing.
-- Example: Two Sum Problem.
+> Used for problems involving arrays or strings, such as finding pairs or reversing.
+> Example: Two Sum Problem.
 ```java
 public int[] twoSum(int[] nums, int target) {
     int left = 0, right = nums.length - 1;
@@ -569,7 +569,7 @@ public int countSetBits(int n) {
 ```
 
 ### Find the Missing Number
-- Problem Statement: Given an array containing n distinct numbers taken from 0, 1, 2, ..., n, find the missing number.
+> Problem Statement: Given an array containing n distinct numbers taken from 0, 1, 2, ..., n, find the missing number.
 ```java
 public int missingNumber(int[] nums) {
     int xor = 0;
@@ -581,7 +581,7 @@ public int missingNumber(int[] nums) {
 ```
 
 ### Single Number
-- Problem Statement: Given a non-empty array of integers where every element appears twice except for one, find that single one.
+> Problem Statement: Given a non-empty array of integers where every element appears twice except for one, find that single one.
 ```java
 public int singleNumber(int[] nums) {
     int result = 0;
