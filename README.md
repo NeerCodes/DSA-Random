@@ -198,6 +198,7 @@ public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
 
 ### Merge K Sorted Lists
 > compare every 2 lists, call 'merge2sortedLists' function, and keep doing until we have a bigger list.
+> 
 > Merge Two Lists at a Time (Divide & Conquer) - O(N log K)
 ```java
 public ListNode mergeKLists(ListNode[] lists) {
