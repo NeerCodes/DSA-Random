@@ -313,3 +313,238 @@ public int binarySearch(int[] arr, int target) {
     return -1;
 }
 ```
+
+### Quick Sort
+```java
+public void quickSort(int[] arr, int low, int high) {
+    if (low < high) {
+        int pi = partition(arr, low, high);
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+```
+
+### Merge Sort
+```java
+public void mergeSort(int[] arr, int left, int right) {
+    if (left < right) {
+        int mid = (left + right) / 2;
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid + 1, right);
+        merge(arr, left, mid, right);
+    }
+}
+private void merge(int[] arr, int left, int mid, int right) {
+    // Merge logic
+}
+```
+
+
+## Graph Algorithms
+### Breadth-First Search (BFS)
+```java
+public void bfs(int start, List<List<Integer>> graph) {
+    Queue<Integer> queue = new LinkedList<>();
+    boolean[] visited = new boolean[graph.size()];
+    queue.add(start);
+    visited[start] = true;
+    while (!queue.isEmpty()) {
+        int node = queue.poll();
+        System.out.print(node + " ");
+        for (int neighbor : graph.get(node)) {
+            if (!visited[neighbor]) {
+                queue.add(neighbor);
+                visited[neighbor] = true;
+            }
+        }
+    }
+}
+```
+
+
+### Depth-First Search (DFS)
+```java
+public void dfs(int node, List<List<Integer>> graph, boolean[] visited) {
+    visited[node] = true;
+    System.out.print(node + " ");
+    for (int neighbor : graph.get(node)) {
+        if (!visited[neighbor]) {
+            dfs(neighbor, graph, visited);
+        }
+    }
+}
+```
+
+
+### Dijkstra’s Algorithm
+```java
+public int[] dijkstra(int V, List<List<int[]>> adj, int src) {
+    int[] dist = new int[V];
+    Arrays.fill(dist, Integer.MAX_VALUE);
+    dist[src] = 0;
+    PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[1] - b[1]);
+    pq.add(new int[]{src, 0});
+    while (!pq.isEmpty()) {
+        int[] node = pq.poll();
+        int u = node[0], d = node[1];
+        for (int[] edge : adj.get(u)) {
+            int v = edge[0], weight = edge[1];
+            if (dist[u] + weight < dist[v]) {
+                dist[v] = dist[u] + weight;
+                pq.add(new int[]{v, dist[v]});
+            }
+        }
+    }
+    return dist;
+}
+```
+
+### Floyd-Warshall Algorithm
+```java
+public void floydWarshall(int[][] graph) {
+    int V = graph.length;
+    for (int k = 0; k < V; k++) {
+        for (int i = 0; i < V; i++) {
+            for (int j = 0; j < V; j++) {
+                graph[i][j] = Math.min(graph[i][j], graph[i][k] + graph[k][j]);
+            }
+        }
+    }
+}
+```
+
+
+## Dynamic Programming
+### Fibonacci Sequence
+```java
+public int fib(int n) {
+    if (n <= 1) return n;
+    int[] dp = new int[n + 1];
+    dp[0] = 0; dp[1] = 1;
+    for (int i = 2; i <= n; i++) {
+        dp[i] = dp[i - 1] + dp[i - 2];
+    }
+    return dp[n];
+}
+```
+
+### Longest Common Subsequence (LCS)
+```java
+public int lcs(String text1, String text2) {
+    int m = text1.length(), n = text2.length();
+    int[][] dp = new int[m + 1][n + 1];
+    for (int i = 1; i <= m; i++) {
+        for (int j = 1; j <= n; j++) {
+            if (text1.charAt(i - 1) == text2.charAt(j - 1)) {
+                dp[i][j] = dp[i - 1][j - 1] + 1;
+            } else {
+                dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+            }
+        }
+    }
+    return dp[m][n];
+}
+```
+
+### Longest Increasing Subsequence (LIS)
+> Problem Statement: Find the length of the longest subsequence of a given sequence such that all elements are in increasing order.
+```java
+public int lengthOfLIS(int[] nums) {
+    int[] dp = new int[nums.length];
+    Arrays.fill(dp, 1);
+    int maxLen = 1;
+    for (int i = 1; i < nums.length; i++) {
+        for (int j = 0; j < i; j++) {
+            if (nums[i] > nums[j]) {
+                dp[i] = Math.max(dp[i], dp[j] + 1);
+            }
+        }
+        maxLen = Math.max(maxLen, dp[i]);
+    }
+    return maxLen;
+}
+```
+
+
+### Coin Change Problem
+> Problem Statement: Find the minimum number of coins required to make a given amount.
+```java
+public int coinChange(int[] coins, int amount) {
+    int[] dp = new int[amount + 1];
+    Arrays.fill(dp, amount + 1);
+    dp[0] = 0;
+    for (int i = 1; i <= amount; i++) {
+        for (int coin : coins) {
+            if (coin <= i) {
+                dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+            }
+        }
+    }
+    return dp[amount] > amount ? -1 : dp[amount];
+}
+```
+
+### 0-1 Knapsack Problem
+```java
+public int knapsack(int[] weights, int[] values, int W) {
+    int n = weights.length;
+    int[][] dp = new int[n + 1][W + 1];
+    for (int i = 1; i <= n; i++) {
+        for (int j = 0; j <= W; j++) {
+            if (weights[i - 1] <= j) {
+                dp[i][j] = Math.max(dp[i - 1][j], values[i - 1] + dp[i - 1][j - weights[i - 1]]);
+            } else {
+                dp[i][j] = dp[i - 1][j];
+            }
+        }
+    }
+    return dp[n][W];
+}
+```
+
+### Unbounded Knapsack
+```java
+public int unboundedKnapsack(int[] weights, int[] values, int W) {
+    int n = weights.length;
+    int[] dp = new int[W + 1];
+    for (int j = 0; j <= W; j++) {
+        for (int i = 0; i < n; i++) {
+            if (weights[i] <= j) {
+                dp[j] = Math.max(dp[j], values[i] + dp[j - weights[i]]);
+            }
+        }
+    }
+    return dp[W];
+}
+```
+
+
+## Greedy Algorithms
+### Activity Selection Problem
+```java
+public int maxActivities(int[][] intervals) {
+    Arrays.sort(intervals, (a, b) -> a[1] - b[1]);
+    int count = 1, end = intervals[0][1];
+    for (int i = 1; i < intervals.length; i++) {
+        if (intervals[i][0] >= end) {
+            count++;
+            end = intervals[i][1];
+        }
+    }
+    return count;
+}
+```
+
+## Bit Manipulation
+- AND (&): Sets a bit to 1 if both bits are 1.
+
+- OR (|): Sets a bit to 1 if at least one bit is 1.
+
+- XOR (^): Sets a bit to 1 if the bits are different.
+
+- NOT (~): Flips all bits.
+
+- Left Shift (<<): Shifts bits to the left, filling with 0.
+
+- Right Shift (>>): Shifts bits to the right, filling with the sign bit.
