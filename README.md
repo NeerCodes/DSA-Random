@@ -70,14 +70,6 @@ public int[] mergeSortedArrays(int[] arr1, int[] arr2) {
 ```
 
 
-
-
-
-
-
-
-
-
 ### General 2-pointer pseudo code
 ```java
 public boolean twoSumProblem(int[] a, int N, int X){
@@ -123,6 +115,7 @@ boolean pairSum(int[] a, int N, int X){
   return false;
 }
 ```
+
 
 ## LINKED LIST
 ### Linked List Cycle
@@ -209,6 +202,7 @@ for (int i = k; i < n; i++){
 }
 ```
 
+
 ## STACKS and QUEUES
 ### Implement Queue using Stack
 ```java
@@ -269,6 +263,7 @@ class MyStack {
 }
 ```
 
+
 ## RECURSION and BACKTRACKING
 ### Generate All Subsets (Power Set)
 ```java
@@ -298,6 +293,7 @@ public boolean solveNQueens(int board[][], int row) {
     return false;
 }
 ```
+
 
 ## SEARCHING and SORTING
 ### Binary Search
@@ -362,7 +358,6 @@ public void bfs(int start, List<List<Integer>> graph) {
 }
 ```
 
-
 ### Depth-First Search (DFS)
 ```java
 public void dfs(int node, List<List<Integer>> graph, boolean[] visited) {
@@ -375,7 +370,6 @@ public void dfs(int node, List<List<Integer>> graph, boolean[] visited) {
     }
 }
 ```
-
 
 ### Dijkstra’s Algorithm
 ```java
@@ -466,7 +460,6 @@ public int lengthOfLIS(int[] nums) {
 }
 ```
 
-
 ### Coin Change Problem
 > **Problem Statement:** Find the minimum number of coins required to make a given amount.
 ```java
@@ -535,6 +528,7 @@ public int maxActivities(int[][] intervals) {
     return count;
 }
 ```
+
 
 ## Bit Manipulation
 - **AND (&):** Sets a bit to 1 if both bits are 1.
