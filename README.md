@@ -173,20 +173,92 @@ public ListNode reverseList(ListNode head) {
 
 ### Merge 2 Sorted Lists
 ```java
-   if(l1.val < l2.val){
-     cur.next = l1;
-     l1 = l1.next;
-   }
-   else{
-     cur.next = l2;
-     l2 = l2.next;
-   }
+public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        ListNode dummy = new ListNode(-1); // Dummy node to simplify code
+        ListNode cur = dummy;
+
+        while (l1 != null && l2 != null) {
+            if (l1.val < l2.val) {
+                cur.next = l1;
+                l1 = l1.next;
+            } else {
+                cur.next = l2;
+                l2 = l2.next;
+            }
+            cur = cur.next;
+        }
+
+        // Attach the remaining nodes of the non-empty list
+        if (l1 != null) cur.next = l1;
+        if (l2 != null) cur.next = l2;
+
+        return dummy.next; // Return merged list (skipping dummy node)
+    }
 ```
 
 ### Merge K Sorted Lists
 > compare every 2 lists, call 'merge2sortedLists' function, and keep doing until we have a bigger list.
+> Merge Two Lists at a Time (Divide & Conquer) - O(N log K)
+```java
+public ListNode mergeKLists(ListNode[] lists) {
+        if (lists == null || lists.length == 0) return null;
+        return mergeLists(lists, 0, lists.length - 1);
+    }
+
+    private ListNode mergeLists(ListNode[] lists, int left, int right) {
+        if (left == right) return lists[left]; // Only one list left
+        int mid = left + (right - left) / 2;
+        ListNode l1 = mergeLists(lists, left, mid);
+        ListNode l2 = mergeLists(lists, mid + 1, right);
+        return mergeTwoLists(l1, l2);
+    }
+
+    private ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        ListNode dummy = new ListNode(-1);
+        ListNode cur = dummy;
+        while (l1 != null && l2 != null) {
+            if (l1.val < l2.val) {
+                cur.next = l1;
+                l1 = l1.next;
+            } else {
+                cur.next = l2;
+                l2 = l2.next;
+            }
+            cur = cur.next;
+        }
+        cur.next = (l1 != null) ? l1 : l2;
+        return dummy.next;
+    }
+```
+- Recursively divide the lists into two halves.
+- Merge each half recursively using mergeTwoLists.
+- Similar to Merge Sort, resulting in O(N log K) time complexity.
+
 > Add all the lists into one big array or list -> sort the array -> then put the elements back into a new LL
-> Priority Queue is another option
+> Using a Priority Queue (Min-Heap) - O(N log K)
+```java
+public ListNode mergeKLists(ListNode[] lists) {
+        if (lists == null || lists.length == 0) return null;
+
+        PriorityQueue<ListNode> pq = new PriorityQueue<>((a, b) -> a.val - b.val);
+        for (ListNode node : lists) {
+            if (node != null) pq.offer(node);
+        }
+
+        ListNode dummy = new ListNode(-1);
+        ListNode cur = dummy;
+
+        while (!pq.isEmpty()) {
+            ListNode minNode = pq.poll();
+            cur.next = minNode;
+            cur = cur.next;
+            if (minNode.next != null) pq.offer(minNode.next);
+        }
+
+        return dummy.next;
+    }
+```
+
 
 
 ### Sliding Window General Pseudo Code
@@ -241,7 +313,7 @@ public int[] nextGreaterElement(int[] nums) {
 }
 ```
 
-### Implementing a Stack
+### Implementing a Stack (using List)
 ```java
 class MyStack {
     private List<Integer> data;
@@ -281,17 +353,62 @@ public void subsets(int[] nums, int index, List<Integer> current, List<List<Inte
 
 ### N-Queens Problem
 ```java
-public boolean solveNQueens(int board[][], int row) {
-    if (row >= board.length) return true;
-    for (int i = 0; i < board.length; i++) {
-        if (isSafe(board, row, i)) {
-            board[row][i] = 1;
-            if (solveNQueens(board, row + 1)) return true;
-            board[row][i] = 0;
+public class NQueens {
+    public boolean solveNQueens(int[][] board, int row) {
+        if (row >= board.length) return true;
+        for (int i = 0; i < board.length; i++) {
+            if (isSafe(board, row, i)) {
+                board[row][i] = 1;
+                if (solveNQueens(board, row + 1)) return true;
+                board[row][i] = 0;
+            }
+        }
+        return false;
+    }
+
+    private boolean isSafe(int[][] board, int row, int col) {
+        int n = board.length;
+        
+        // Check column
+        for (int i = 0; i < row; i++) {
+            if (board[i][col] == 1) return false;
+        }
+
+        // Check upper-left diagonal
+        for (int i = row, j = col; i >= 0 && j >= 0; i--, j--) {
+            if (board[i][j] == 1) return false;
+        }
+
+        // Check upper-right diagonal
+        for (int i = row, j = col; i >= 0 && j < n; i--, j++) {
+            if (board[i][j] == 1) return false;
+        }
+
+        return true;
+    }
+
+    public void printSolution(int[][] board) {
+        for (int[] row : board) {
+            for (int cell : row) {
+                System.out.print(cell == 1 ? "Q " : ". ");
+            }
+            System.out.println();
         }
     }
-    return false;
+
+    public static void main(String[] args) {
+        int n = 8; // Change N as needed
+        int[][] board = new int[n][n];
+        NQueens nq = new NQueens();
+
+        if (nq.solveNQueens(board, 0)) {
+            nq.printSolution(board);
+        } else {
+            System.out.println("No solution exists.");
+        }
+    }
 }
+
 ```
 
 
@@ -319,21 +436,83 @@ public void quickSort(int[] arr, int low, int high) {
         quickSort(arr, pi + 1, high);
     }
 }
+
+public int partition(int[] arr, int low, int high) {
+    int pivot = arr[high];
+    int i = low - 1;
+    for (int j = low; j < high; j++) {
+        if (arr[j] < pivot) {
+            i++;
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+    }
+    int temp = arr[i + 1];
+    arr[i + 1] = arr[high];
+    arr[high] = temp;
+    return i + 1;
+}
+
 ```
 
 ### Merge Sort
 ```java
 public void mergeSort(int[] arr, int left, int right) {
-    if (left < right) {
-        int mid = (left + right) / 2;
-        mergeSort(arr, left, mid);
-        mergeSort(arr, mid + 1, right);
-        merge(arr, left, mid, right);
-    }
+        if (left < right) {
+            int mid = left + (right - left) / 2; // Avoids overflow for large left and right
+            mergeSort(arr, left, mid);          // Sort the left half
+            mergeSort(arr, mid + 1, right);     // Sort the right half
+            merge(arr, left, mid, right);       // Merge the sorted halves
+        }
 }
+
 private void merge(int[] arr, int left, int mid, int right) {
-    // Merge logic
-}
+        // Sizes of the two subarrays to be merged
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
+
+        // Temporary arrays to hold the two halves
+        int[] leftArray = new int[n1];
+        int[] rightArray = new int[n2];
+
+        // Copy data to temporary arrays
+        for (int i = 0; i < n1; i++) {
+            leftArray[i] = arr[left + i];
+        }
+        for (int j = 0; j < n2; j++) {
+            rightArray[j] = arr[mid + 1 + j];
+        }
+
+        // Merge the two temporary arrays back into the original array
+        int i = 0, j = 0; // Initial indices of the two subarrays
+        int k = left;     // Initial index of the merged subarray
+
+        while (i < n1 && j < n2) {
+            if (leftArray[i] <= rightArray[j]) {
+                arr[k] = leftArray[i];
+                i++;
+            } else {
+                arr[k] = rightArray[j];
+                j++;
+            }
+            k++;
+        }
+
+        // Copy remaining elements of leftArray (if any)
+        while (i < n1) {
+            arr[k] = leftArray[i];
+            i++;
+            k++;
+        }
+
+        // Copy remaining elements of rightArray (if any)
+        while (j < n2) {
+            arr[k] = rightArray[j];
+            j++;
+            k++;
+        }
+ }
 ```
 
 
