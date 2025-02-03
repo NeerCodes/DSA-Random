@@ -354,8 +354,7 @@ public void subsets(int[] nums, int index, List<Integer> current, List<List<Inte
 
 ### N-Queens Problem
 ```java
-public class NQueens {
-    public boolean solveNQueens(int[][] board, int row) {
+   public boolean solveNQueens(int[][] board, int row) {
         if (row >= board.length) return true;
         for (int i = 0; i < board.length; i++) {
             if (isSafe(board, row, i)) {
@@ -387,29 +386,6 @@ public class NQueens {
 
         return true;
     }
-
-    public void printSolution(int[][] board) {
-        for (int[] row : board) {
-            for (int cell : row) {
-                System.out.print(cell == 1 ? "Q " : ". ");
-            }
-            System.out.println();
-        }
-    }
-
-    public static void main(String[] args) {
-        int n = 8; // Change N as needed
-        int[][] board = new int[n][n];
-        NQueens nq = new NQueens();
-
-        if (nq.solveNQueens(board, 0)) {
-            nq.printSolution(board);
-        } else {
-            System.out.println("No solution exists.");
-        }
-    }
-}
-
 ```
 
 
