@@ -548,3 +548,48 @@ public int maxActivities(int[][] intervals) {
 - Left Shift (<<): Shifts bits to the left, filling with 0.
 
 - Right Shift (>>): Shifts bits to the right, filling with the sign bit.
+
+### Check if a Number is a Power of Two
+```java
+public boolean isPowerOfTwo(int n) {
+    return n > 0 && (n & (n - 1)) == 0;
+}
+```
+
+### Count the Number of Set Bits (Hamming Weight)
+```java
+public int countSetBits(int n) {
+    int count = 0;
+    while (n > 0) {
+        count += n & 1;
+        n >>= 1;
+    }
+    return count;
+}
+```
+
+### Find the Missing Number
+- Problem Statement: Given an array containing n distinct numbers taken from 0, 1, 2, ..., n, find the missing number.
+```java
+public int missingNumber(int[] nums) {
+    int xor = 0;
+    for (int i = 0; i < nums.length; i++) {
+        xor ^= nums[i] ^ (i + 1);
+    }
+    return xor;
+}
+```
+
+### Single Number
+- Problem Statement: Given a non-empty array of integers where every element appears twice except for one, find that single one.
+```java
+public int singleNumber(int[] nums) {
+    int result = 0;
+    for (int num : nums) {
+        result ^= num;
+    }
+    return result;
+}
+```
+
+
