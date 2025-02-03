@@ -191,9 +191,9 @@ public ListNode reverseList(ListNode head) {
 ```
 
 ### Merge K Sorted Lists
-- compare every 2 lists, call 'merge2sortedLists' function, and keep doing until we have a bigger list.
-- Add all the lists into one big array or list -> sort the array -> then put the elements back into a new LL
-- Priority Queue is another option
+> compare every 2 lists, call 'merge2sortedLists' function, and keep doing until we have a bigger list.
+> Add all the lists into one big array or list -> sort the array -> then put the elements back into a new LL
+> Priority Queue is another option
 
 
 ### Sliding Window General Pseudo Code
@@ -448,7 +448,7 @@ public int lcs(String text1, String text2) {
 ```
 
 ### Longest Increasing Subsequence (LIS)
-> Problem Statement: Find the length of the longest subsequence of a given sequence such that all elements are in increasing order.
+> **Problem Statement:** Find the length of the longest subsequence of a given sequence such that all elements are in increasing order.
 ```java
 public int lengthOfLIS(int[] nums) {
     int[] dp = new int[nums.length];
@@ -468,7 +468,7 @@ public int lengthOfLIS(int[] nums) {
 
 
 ### Coin Change Problem
-> Problem Statement: Find the minimum number of coins required to make a given amount.
+> **Problem Statement:** Find the minimum number of coins required to make a given amount.
 ```java
 public int coinChange(int[] coins, int amount) {
     int[] dp = new int[amount + 1];
@@ -537,17 +537,17 @@ public int maxActivities(int[][] intervals) {
 ```
 
 ## Bit Manipulation
-- AND (&): Sets a bit to 1 if both bits are 1.
+- **AND (&):** Sets a bit to 1 if both bits are 1.
 
-- OR (|): Sets a bit to 1 if at least one bit is 1.
+- **OR (|):** Sets a bit to 1 if at least one bit is 1.
 
-- XOR (^): Sets a bit to 1 if the bits are different.
+- **XOR (^):** Sets a bit to 1 if the bits are different.
 
-- NOT (~): Flips all bits.
+- **NOT (~):** Flips all bits.
 
-- Left Shift (<<): Shifts bits to the left, filling with 0.
+- **Left Shift (<<):** Shifts bits to the left, filling with 0.
 
-- Right Shift (>>): Shifts bits to the right, filling with the sign bit.
+- **Right Shift (>>):** Shifts bits to the right, filling with the sign bit.
 
 ### Check if a Number is a Power of Two
 ```java
@@ -569,7 +569,7 @@ public int countSetBits(int n) {
 ```
 
 ### Find the Missing Number
-> Problem Statement: Given an array containing n distinct numbers taken from 0, 1, 2, ..., n, find the missing number.
+> **Problem Statement:** Given an array containing n distinct numbers taken from 0, 1, 2, ..., n, find the missing number.
 ```java
 public int missingNumber(int[] nums) {
     int xor = 0;
@@ -581,7 +581,7 @@ public int missingNumber(int[] nums) {
 ```
 
 ### Single Number
-> Problem Statement: Given a non-empty array of integers where every element appears twice except for one, find that single one.
+> **Problem Statement:** Given a non-empty array of integers where every element appears twice except for one, find that single one.
 ```java
 public int singleNumber(int[] nums) {
     int result = 0;
@@ -593,3 +593,82 @@ public int singleNumber(int[] nums) {
 ```
 
 
+## ADVANCE TOPICS
+## Trie (Prefix Tree)
+> **Used for:** Efficient string search and prefix matching.
+```java
+class TrieNode {
+    TrieNode[] children = new TrieNode[26];
+    boolean isEndOfWord;
+}
+
+class Trie {
+    private TrieNode root;
+    public Trie() {
+        root = new TrieNode();
+    }
+    public void insert(String word) {
+        TrieNode curr = root;
+        for (char c : word.toCharArray()) {
+            int index = c - 'a';
+            if (curr.children[index] == null) {
+                curr.children[index] = new TrieNode();
+            }
+            curr = curr.children[index];
+        }
+        curr.isEndOfWord = true;
+    }
+    public boolean search(String word) {
+        TrieNode curr = root;
+        for (char c : word.toCharArray()) {
+            int index = c - 'a';
+            if (curr.children[index] == null) return false;
+            curr = curr.children[index];
+        }
+        return curr.isEndOfWord;
+    }
+    public boolean startsWith(String prefix) {
+        TrieNode curr = root;
+        for (char c : prefix.toCharArray()) {
+            int index = c - 'a';
+            if (curr.children[index] == null) return false;
+            curr = curr.children[index];
+        }
+        return true;
+    }
+}
+```
+
+
+## Segment Tree
+> **Used for:** Range queries and updates.
+```java
+class SegmentTree {
+    int[] tree;
+    int n;
+    public SegmentTree(int[] nums) {
+        n = nums.length;
+        tree = new int[4 * n];
+        build(nums, 0, 0, n - 1);
+    }
+    private void build(int[] nums, int idx, int left, int right) {
+        if (left == right) {
+            tree[idx] = nums[left];
+            return;
+        }
+        int mid = left + (right - left) / 2;
+        build(nums, 2 * idx + 1, left, mid);
+        build(nums, 2 * idx + 2, mid + 1, right);
+        tree[idx] = tree[2 * idx + 1] + tree[2 * idx + 2];
+    }
+    public int query(int ql, int qr) {
+        return query(0, 0, n - 1, ql, qr);
+    }
+    private int query(int idx, int left, int right, int ql, int qr) {
+        if (ql > right || qr < left) return 0;
+        if (ql <= left && qr >= right) return tree[idx];
+        int mid = left + (right - left) / 2;
+        return query(2 * idx + 1, left, mid, ql, qr) + query(2 * idx + 2, mid + 1, right, ql, qr);
+    }
+}
+```
