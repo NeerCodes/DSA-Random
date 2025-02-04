@@ -2,9 +2,9 @@
 Random DSA Patterns for revision.
 
 ## ARRAYS
-#### Kadane's Algorithm
-> Used to find the maximum subarray sum.
-
+#### Maximum Subarray (Kadane's Algorithm)
+> Problem: Find the contiguous subarray with the largest sum.
+> Approach: Use Kadane's algorithm to track the maximum sum ending at each index.
 ```java
   public int maxSubArray(int[] nums) {
     int maxSum = nums[0], currentSum = nums[0];  
@@ -16,7 +16,164 @@ Random DSA Patterns for revision.
  }
 ```
 
-### Two Pointers Technique
+#### Two Sum
+> Problem: Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+
+> Approach: Use a hash map to store the difference between target and the current element.
+```java
+public int[] twoSum(int[] nums, int target) {
+    Map<Integer, Integer> map = new HashMap<>();
+    for (int i = 0; i < nums.length; i++) {
+        int complement = target - nums[i];
+        if (map.containsKey(complement)) {
+            return new int[]{map.get(complement), i};
+        }
+        map.put(nums[i], i);
+    }
+    throw new IllegalArgumentException("No two sum solution");
+}
+```
+
+#### Merge Intervals
+> Problem: Merge overlapping intervals.
+
+> Approach: Sort the intervals and merge overlapping ones.
+```java
+public int[][] merge(int[][] intervals) {
+    if (intervals.length <= 1) return intervals;
+    Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+    List<int[]> result = new ArrayList<>();
+    int[] newInterval = intervals[0];
+    result.add(newInterval);
+    for (int[] interval : intervals) {
+        if (interval[0] <= newInterval[1]) {
+            newInterval[1] = Math.max(newInterval[1], interval[1]);
+        } else {
+            newInterval = interval;
+            result.add(newInterval);
+        }
+    }
+    return result.toArray(new int[result.size()][]);
+}
+```
+
+#### Rotate Array
+> Problem: Rotate an array to the right by k steps.
+
+> Approach: Reverse the entire array, then reverse the first k elements and the remaining elements.
+```java
+public void rotate(int[] nums, int k) {
+    k %= nums.length;
+    reverse(nums, 0, nums.length - 1);
+    reverse(nums, 0, k - 1);
+    reverse(nums, k, nums.length - 1);
+}
+private void reverse(int[] nums, int start, int end) {
+    while (start < end) {
+        int temp = nums[start];
+        nums[start] = nums[end];
+        nums[end] = temp;
+        start++;
+        end--;
+    }
+}
+```
+
+#### Product of Array Except Self
+> Problem: Given an array nums, return an array output such that output[i] is equal to the product of all elements of nums except nums[i].
+
+> Approach: Use prefix and suffix products.
+```java
+public int[] productExceptSelf(int[] nums) {
+    int n = nums.length;
+    int[] result = new int[n];
+    result[0] = 1;
+    for (int i = 1; i < n; i++) {
+        result[i] = result[i - 1] * nums[i - 1];
+    }
+    int right = 1;
+    for (int i = n - 1; i >= 0; i--) {
+        result[i] *= right;
+        right *= nums[i];
+    }
+    return result;
+}
+```
+
+#### Find All Duplicates in an Array
+> Problem: Given an array of integers where each integer is between 1 and n (inclusive), find all duplicates.
+
+> Approach: Use the array indices to mark visited numbers.
+```java
+public List<Integer> findDuplicates(int[] nums) {
+    List<Integer> result = new ArrayList<>();
+    for (int i = 0; i < nums.length; i++) {
+        int index = Math.abs(nums[i]) - 1;
+        if (nums[index] < 0) {
+            result.add(index + 1);
+        } else {
+            nums[index] = -nums[index];
+        }
+    }
+    return result;
+}
+```
+
+#### Longest Consecutive Sequence
+> Problem: Given an unsorted array of integers, find the length of the longest consecutive sequence.
+
+> Approach: Use a hash set to store all elements and check for sequences.
+```java
+public int longestConsecutive(int[] nums) {
+    Set<Integer> set = new HashSet<>();
+    for (int num : nums) set.add(num);
+    int longestStreak = 0;
+    for (int num : set) {
+        if (!set.contains(num - 1)) {
+            int currentNum = num;
+            int currentStreak = 1;
+            while (set.contains(currentNum + 1)) {
+                currentNum++;
+                currentStreak++;
+            }
+            longestStreak = Math.max(longestStreak, currentStreak);
+        }
+    }
+    return longestStreak;
+}
+```
+
+
+#### Search in Rotated Sorted Array
+> Problem: Given a rotated sorted array, find the index of a target value.
+
+> Approach: Use binary search with additional checks for rotation.
+```java
+public int search(int[] nums, int target) {
+    int left = 0, right = nums.length - 1;
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] == target) return mid;
+        if (nums[left] <= nums[mid]) {
+            if (nums[left] <= target && target < nums[mid]) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        } else {
+            if (nums[mid] < target && target <= nums[right]) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+    }
+    return -1;
+}
+```
+
+
+#### Two Pointers Technique
 > Used for problems involving arrays or strings, such as finding pairs or reversing.
 > Example: Two Sum Problem.
 ```java
@@ -36,7 +193,7 @@ public int[] twoSum(int[] nums, int target) {
 }
 ```
 
-### Sliding Window
+#### Sliding Window
 - Used for subarray or substring problems.
 - Example: Maximum Sum Subarray of Size K.
 ```java
@@ -54,6 +211,45 @@ public int maxSumSubarray(int[] nums, int k) {
 }
 ```
 
+- Example: Given an array and a window size k, find the maximum in each sliding window.
+- Approach: Use a deque to store indices of useful elements.
+```java
+public int[] maxSlidingWindow(int[] nums, int k) {
+    if (nums == null || k <= 0) return new int[0];
+    int n = nums.length;
+    int[] result = new int[n - k + 1];
+    Deque<Integer> deque = new ArrayDeque<>();
+    int index = 0;
+    for (int i = 0; i < n; i++) {
+        while (!deque.isEmpty() && deque.peek() < i - k + 1) {
+            deque.poll();
+        }
+        while (!deque.isEmpty() && nums[deque.peekLast()] < nums[i]) {
+            deque.pollLast();
+        }
+        deque.offer(i);
+        if (i >= k - 1) {
+            result[index++] = nums[deque.peek()];
+        }
+    }
+    return result;
+}
+```
+
+#### Missing Number
+> Problem: Given an array containing n distinct numbers taken from 0, 1, 2, ..., n, find the missing number.
+
+> Approach: Use XOR or the sum of numbers.
+```java
+public int missingNumber(int[] nums) {
+    int xor = 0;
+    for (int i = 0; i < nums.length; i++) {
+        xor ^= nums[i] ^ (i + 1);
+    }
+    return xor;
+}
+```
+
 ### Merge Two Sorted Arrays
 ```java
 public int[] mergeSortedArrays(int[] arr1, int[] arr2) {
@@ -68,7 +264,6 @@ public int[] mergeSortedArrays(int[] arr1, int[] arr2) {
     return result;
 }
 ```
-
 
 ### General 2-pointer pseudo code
 ```java
