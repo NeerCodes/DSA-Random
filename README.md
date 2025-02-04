@@ -802,7 +802,7 @@ class MyStack {
 }
 ```
 
-### Implementing a Stack (using List)
+#### Implementing a Stack (using List)
 ```java
 class MyStack {
     private List<Integer> data;
@@ -862,7 +862,7 @@ public int[] stockSpan(int[] prices) {
 ```
 
 ## QUEUE
-### Implement Queue using Stacks
+#### Implement Queue using Stacks
 > Problem: Implement a queue using two stacks.
 > Approach: Use two stacks (one for enqueue, one for dequeue).
 ```java
@@ -890,6 +890,31 @@ class MyQueue {
 }
 ```
 
+#### Implement Stack using Queue
+> Problem: Implement a stack using two queues with push() and pop().
+> Approach: Push elements into the queue and rotate it for LIFO order.
+```java
+class MyStack {
+    Queue<Integer> q = new LinkedList<>();
+
+    public void push(int x) {
+        q.add(x);
+        for (int i = 0; i < q.size() - 1; i++) q.add(q.poll());
+    }
+
+    public int pop() {
+        return q.poll();
+    }
+
+    public int top() {
+        return q.peek();
+    }
+
+    public boolean empty() {
+        return q.isEmpty();
+    }
+}
+```
 
 ## RECURSION and BACKTRACKING
 ### Generate All Subsets (Power Set)
