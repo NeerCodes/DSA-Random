@@ -250,7 +250,7 @@ public int missingNumber(int[] nums) {
 }
 ```
 
-### Merge Two Sorted Arrays
+#### Merge Two Sorted Arrays
 ```java
 public int[] mergeSortedArrays(int[] arr1, int[] arr2) {
     int i = 0, j = 0, k = 0;
@@ -265,7 +265,7 @@ public int[] mergeSortedArrays(int[] arr1, int[] arr2) {
 }
 ```
 
-### General 2-pointer pseudo code
+#### General 2-pointer pseudo code
 ```java
 public boolean twoSumProblem(int[] a, int N, int X){
    //first pointer
@@ -295,7 +295,7 @@ public boolean twoSumProblem(int[] a, int N, int X){
 }
 ```
 
-### Two Sum + Sorted
+#### Two Sum + Sorted
 ```java
 boolean pairSum(int[] a, int N, int X){
   int i = 0, j = N-1;
@@ -313,8 +313,9 @@ boolean pairSum(int[] a, int N, int X){
 
 
 ## LINKED LIST
-### Linked List Cycle
+#### Linked List Cycle
 > Using Set
+> T = O(N)
 ```java
 boolean hasCycle(ListNode head){
   Set<ListNode> set = new HashSet<>();
@@ -329,7 +330,10 @@ boolean hasCycle(ListNode head){
 }
 ```
 
-> Using slow and fast pointers
+> Using slow and fast pointers (Floyd’s Cycle Detection)
+- Problem: Check if a linked list has a cycle.
+- Approach: Use two pointers (slow, fast); if they meet, there’s a cycle.
+- T = O(N)
 ```java
 boolean hasCycle(ListNode head) {
         if (head == null || head.next == null) {
@@ -352,7 +356,10 @@ boolean hasCycle(ListNode head) {
     }
 ```
 
-### Reverse a Linked List
+#### Reverse a Linked List
+> Problem: Reverse a given singly linked list.
+> Approach: Use three pointers (prev, curr, next) to reverse links iteratively.
+> T = O(N)
 ```java
 public ListNode reverseList(ListNode head) {
     ListNode prev = null;
@@ -366,29 +373,49 @@ public ListNode reverseList(ListNode head) {
 }
 ```
 
-### Merge 2 Sorted Lists
+#### Find Start of Cycle in Linked List
+> Problem: Find the node where the cycle begins.
+> Approach: After cycle detection, move one pointer to head, move both one step at a time.
+> T = O(N)
+```java
+public ListNode detectCycle(ListNode head) {
+    ListNode slow = head, fast = head;
+    while (fast != null && fast.next != null) {
+        slow = slow.next;
+        fast = fast.next.next;
+        if (slow == fast) {
+            slow = head;
+            while (slow != fast) {
+                slow = slow.next;
+                fast = fast.next;
+            }
+            return slow;
+        }
+    }
+    return null;
+}
+```
+
+### Merge Two Sorted Linked Lists
+> Problem: Merge two sorted linked lists into one sorted list.
+> Approach: Use a dummy node and iterate through both lists, connecting nodes in sorted order.
+> T = O(N)
 ```java
 public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-        ListNode dummy = new ListNode(-1); // Dummy node to simplify code
-        ListNode cur = dummy;
-
-        while (l1 != null && l2 != null) {
-            if (l1.val < l2.val) {
-                cur.next = l1;
-                l1 = l1.next;
-            } else {
-                cur.next = l2;
-                l2 = l2.next;
-            }
-            cur = cur.next;
+    ListNode dummy = new ListNode(-1), cur = dummy;
+    while (l1 != null && l2 != null) {
+        if (l1.val < l2.val) {
+            cur.next = l1;
+            l1 = l1.next;
+        } else {
+            cur.next = l2;
+            l2 = l2.next;
         }
-
-        // Attach the remaining nodes of the non-empty list
-        if (l1 != null) cur.next = l1;
-        if (l2 != null) cur.next = l2;
-
-        return dummy.next; // Return merged list (skipping dummy node)
+        cur = cur.next;
     }
+    cur.next = (l1 != null) ? l1 : l2;
+    return dummy.next;
+}
 ```
 
 ### Merge K Sorted Lists
@@ -455,6 +482,137 @@ public ListNode mergeKLists(ListNode[] lists) {
     }
 ```
 
+#### Remove N-th Node from End
+> Problem: Remove the N-th node from the end of the linked list.
+> Approach: Use two pointers with a gap of N, move both till end, delete required node.
+> T = O(N)
+```java
+public ListNode removeNthFromEnd(ListNode head, int n) {
+    ListNode dummy = new ListNode(0);
+    dummy.next = head;
+    ListNode first = dummy, second = dummy;
+    for (int i = 0; i <= n; i++) first = first.next;
+    while (first != null) {
+        first = first.next;
+        second = second.next;
+    }
+    second.next = second.next.next;
+    return dummy.next;
+}
+```
+
+#### Find Middle of Linked List
+> Problem: Find the middle node of a linked list.
+> Approach: Use slow and fast pointers; fast moves twice as fast as slow.
+> T = O(N)
+```java
+public ListNode middleNode(ListNode head) {
+    ListNode slow = head, fast = head;
+    while (fast != null && fast.next != null) {
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    return slow;
+}
+```
+
+#### Check if Linked List is Palindrome
+> Problem: Check if a linked list reads the same forward and backward.
+> Approach: Find the middle, reverse second half, compare both halves.
+> T = O(N)
+```java
+public boolean isPalindrome(ListNode head) {
+    if (head == null || head.next == null) return true;
+    ListNode slow = head, fast = head, prev = null;
+    while (fast != null && fast.next != null) {
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    ListNode rev = reverse(slow);
+    ListNode first = head, second = rev;
+    while (second != null) {
+        if (first.val != second.val) return false;
+        first = first.next;
+        second = second.next;
+    }
+    return true;
+}
+
+private ListNode reverse(ListNode head) {
+    ListNode prev = null, curr = head;
+    while (curr != null) {
+        ListNode next = curr.next;
+        curr.next = prev;
+        prev = curr;
+        curr = next;
+    }
+    return prev;
+}
+```
+
+#### Reverse in Groups of K
+> Problem: Reverse the linked list in groups of K.
+> Approach: Reverse first K nodes recursively, then connect.
+> T = O(N)
+```java
+public ListNode reverseKGroup(ListNode head, int k) {
+    ListNode curr = head;
+    int count = 0;
+    while (curr != null && count < k) {
+        curr = curr.next;
+        count++;
+    }
+    if (count == k) {
+        curr = reverseKGroup(curr, k);
+        while (count-- > 0) {
+            ListNode temp = head.next;
+            head.next = curr;
+            curr = head;
+            head = temp;
+        }
+        head = curr;
+    }
+    return head;
+}
+```
+
+#### Intersection of Two Linked Lists
+> Problem: Find the node where two linked lists intersect.
+> Approach: Use two pointers, move them to opposite lists when reaching the end.
+> T = O(N)
+
+```java
+public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+    ListNode a = headA, b = headB;
+    while (a != b) {
+        a = (a == null) ? headB : a.next;
+        b = (b == null) ? headA : b.next;
+    }
+    return a;
+}
+```
+
+#### Flatten a Multilevel Linked List
+> Problem: Flatten a linked list where nodes have an extra child pointer.
+> Approach: Use DFS or an iterative approach with a stack. T = O(N)
+```java
+public Node flatten(Node head) {
+    if (head == null) return head;
+    Stack<Node> stack = new Stack<>();
+    Node curr = head;
+    while (curr != null) {
+        if (curr.child != null) {
+            if (curr.next != null) stack.push(curr.next);
+            curr.next = curr.child;
+            curr.child = null;
+        }
+        if (curr.next == null && !stack.isEmpty()) curr.next = stack.pop();
+        curr = curr.next;
+    }
+    return head;
+}
+```
+
 
 
 ### Sliding Window General Pseudo Code
@@ -472,40 +630,175 @@ for (int i = k; i < n; i++){
 
 
 ## STACKS and QUEUES
-### Implement Queue using Stack
+## STACK
+#### Valid Parentheses
+> Problem: Check if a given string of parentheses is valid.
+> Approach: Use a stack to track opening brackets and match them with closing ones.
 ```java
-class MyQueue {
-    Stack<Integer> stack1 = new Stack<>();
-    Stack<Integer> stack2 = new Stack<>();
-    
-    public void push(int x) {
-        stack1.push(x);
-    }
-    
-    public int pop() {
-        if (stack2.isEmpty()) {
-            while (!stack1.isEmpty()) {
-                stack2.push(stack1.pop());
-            }
+public boolean isValid(String s) {
+    Stack<Character> stack = new Stack<>();
+    for (char c : s.toCharArray()) {
+        if (c == '(' || c == '{' || c == '[') stack.push(c);
+        else {
+            if (stack.isEmpty()) return false;
+            char top = stack.pop();
+            if ((c == ')' && top != '(') || (c == '}' && top != '{') || (c == ']' && top != '[')) return false;
         }
-        return stack2.pop();
+    }
+    return stack.isEmpty();
+}
+```
+
+#### Next Greater Element
+> Problem: Find the next greater element for each element in an array.
+> Approach: Use a stack to store indices and find the next greater element efficiently.
+```java
+public int[] nextGreaterElement(int[] nums) {
+    int[] res = new int[nums.length];
+    Stack<Integer> stack = new Stack<>();
+    for (int i = nums.length - 1; i >= 0; i--) {
+        while (!stack.isEmpty() && stack.peek() <= nums[i]) stack.pop();
+        res[i] = stack.isEmpty() ? -1 : stack.peek();
+        stack.push(nums[i]);
+    }
+    return res;
+}
+```
+
+#### Daily Temperatures (Next Greater Element Variant)
+> Problem: Find the number of days until a warmer temperature appears.
+> Approach: Use a monotonic decreasing stack to store indices.
+```java
+public int[] dailyTemperatures(int[] T) {
+    int[] res = new int[T.length];
+    Stack<Integer> stack = new Stack<>();
+    for (int i = 0; i < T.length; i++) {
+        while (!stack.isEmpty() && T[i] > T[stack.peek()]) {
+            int idx = stack.pop();
+            res[idx] = i - idx;
+        }
+        stack.push(i);
+    }
+    return res;
+}
+```
+
+#### Next Smaller Element
+> Problem: For each element, find the next smaller element to the right.
+> Approach: Similar to Next Greater Element, but using a monotonic increasing stack.
+```java
+public int[] nextSmallerElement(int[] nums) {
+    int[] res = new int[nums.length];
+    Stack<Integer> stack = new Stack<>();
+    for (int i = nums.length - 1; i >= 0; i--) {
+        while (!stack.isEmpty() && stack.peek() >= nums[i]) stack.pop();
+        res[i] = stack.isEmpty() ? -1 : stack.peek();
+        stack.push(nums[i]);
+    }
+    return res;
+}
+```
+
+#### Largest Rectangle in Histogram
+> Problem: Find the largest rectangular area in a histogram.
+> Approach: Use a stack to maintain indices of increasing heights.
+```java
+public int largestRectangleArea(int[] heights) {
+    Stack<Integer> stack = new Stack<>();
+    int maxArea = 0, n = heights.length;
+    for (int i = 0; i <= n; i++) {
+        int h = (i == n) ? 0 : heights[i];
+        while (!stack.isEmpty() && h < heights[stack.peek()]) {
+            int height = heights[stack.pop()];
+            int width = stack.isEmpty() ? i : i - stack.peek() - 1;
+            maxArea = Math.max(maxArea, height * width);
+        }
+        stack.push(i);
+    }
+    return maxArea;
+}
+```
+
+#### Max Area of Binary Matrix (Largest Rectangle in Binary Matrix)
+> Problem: Find the largest rectangle of 1s in a binary matrix.
+> Approach: Convert each row into histogram heights, then use Largest Rectangle in Histogram.
+```java
+public int maximalRectangle(char[][] matrix) {
+    if (matrix.length == 0) return 0;
+    int maxArea = 0, cols = matrix[0].length;
+    int[] heights = new int[cols];
+    for (char[] row : matrix) {
+        for (int j = 0; j < cols; j++) heights[j] = (row[j] == '1') ? heights[j] + 1 : 0;
+        maxArea = Math.max(maxArea, largestRectangleArea(heights));
+    }
+    return maxArea;
+}
+```
+
+#### Simplify Path (Unix Path)
+> Problem: Simplify a Unix file path like /home/../usr//bin/.
+> Approach: Use a stack to track valid directory names.
+```java
+public String simplifyPath(String path) {
+    Stack<String> stack = new Stack<>();
+    for (String dir : path.split("/")) {
+        if (dir.equals("..")) { if (!stack.isEmpty()) stack.pop(); }
+        else if (!dir.equals("") && !dir.equals(".")) stack.push(dir);
+    }
+    return "/" + String.join("/", stack);
+}
+```
+
+#### Min Stack (Stack with Get Minimum in O(1))
+> Problem: Implement a stack that supports push, pop, top, and retrieving the minimum element in O(1).
+> Approach: Use two stacks, one for values and one for minimums
+```java
+class MinStack {
+    Stack<Integer> stack = new Stack<>();
+    Stack<Integer> minStack = new Stack<>();
+
+    public void push(int val) {
+        stack.push(val);
+        if (minStack.isEmpty() || val <= minStack.peek()) minStack.push(val);
+    }
+
+    public void pop() {
+        if (stack.pop().equals(minStack.peek())) minStack.pop();
+    }
+
+    public int top() {
+        return stack.peek();
+    }
+
+    public int getMin() {
+        return minStack.peek();
     }
 }
 ```
 
-### Next Greater Element
+#### Implement Stack using Queues
+> Problem: Implement a stack using two queues.
+> Approach: Use a single queue and push elements in reverse order.
 ```java
-public int[] nextGreaterElement(int[] nums) {
-    Stack<Integer> stack = new Stack<>();
-    int[] result = new int[nums.length];
-    Arrays.fill(result, -1);
-    for (int i = 0; i < nums.length; i++) {
-        while (!stack.isEmpty() && nums[stack.peek()] < nums[i]) {
-            result[stack.pop()] = nums[i];
-        }
-        stack.push(i);
+class MyStack {
+    Queue<Integer> q = new LinkedList<>();
+
+    public void push(int x) {
+        q.add(x);
+        for (int i = 0; i < q.size() - 1; i++) q.add(q.poll());
     }
-    return result;
+
+    public int pop() {
+        return q.poll();
+    }
+
+    public int top() {
+        return q.peek();
+    }
+
+    public boolean empty() {
+        return q.isEmpty();
+    }
 }
 ```
 
@@ -527,6 +820,72 @@ class MyStack {
     }
     public boolean isEmpty() {
         return data.isEmpty();
+    }
+}
+```
+
+#### Evaluate Reverse Polish Notation (Postfix Expression)
+> Problem: Evaluate an arithmetic expression given in postfix notation.
+> Approach: Use a stack, push numbers, pop and compute when encountering an operator.
+```java
+public int evalRPN(String[] tokens) {
+    Stack<Integer> stack = new Stack<>();
+    for (String token : tokens) {
+        if ("+-*/".contains(token)) {
+            int b = stack.pop(), a = stack.pop();
+            switch (token) {
+                case "+": stack.push(a + b); break;
+                case "-": stack.push(a - b); break;
+                case "*": stack.push(a * b); break;
+                case "/": stack.push(a / b); break;
+            }
+        } else stack.push(Integer.parseInt(token));
+    }
+    return stack.pop();
+}
+```
+
+#### Stock Span Problem
+> Problem: Find the span of stock prices for each day.
+> Approach: Use a monotonic decreasing stack to track indices.
+```java
+public int[] stockSpan(int[] prices) {
+    int[] span = new int[prices.length];
+    Stack<Integer> stack = new Stack<>();
+    for (int i = 0; i < prices.length; i++) {
+        while (!stack.isEmpty() && prices[stack.peek()] <= prices[i]) stack.pop();
+        span[i] = stack.isEmpty() ? i + 1 : i - stack.peek();
+        stack.push(i);
+    }
+    return span;
+}
+```
+
+## QUEUE
+### Implement Queue using Stacks
+> Problem: Implement a queue using two stacks.
+> Approach: Use two stacks (one for enqueue, one for dequeue).
+```java
+class MyQueue {
+    Stack<Integer> inStack = new Stack<>();
+    Stack<Integer> outStack = new Stack<>();
+
+    public void push(int x) {
+        inStack.push(x);
+    }
+
+    public int pop() {
+        if (outStack.isEmpty()) while (!inStack.isEmpty()) outStack.push(inStack.pop());
+        return outStack.pop();
+    }
+
+    public int peek() {
+        if (outStack.isEmpty()) while (!inStack.isEmpty()) outStack.push(inStack.pop());
+        return outStack.peek();
+    }
+
+    public boolean empty() {
+        return inStack.isEmpty() && outStack.isEmpty();
     }
 }
 ```
