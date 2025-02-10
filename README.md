@@ -987,7 +987,7 @@ public int orangesRotting(int[][] grid) {
 
 #### Number of Islands
 > Problem: Count the number of islands in a grid (1s are land).
->Approach: Use BFS (or DFS) to traverse and mark connected components.
+> Approach: Use BFS (or DFS) to traverse and mark connected components.
 ```java
 public int numIslands(char[][] grid) {
     int count = 0;
@@ -1164,6 +1164,7 @@ public String reverseString(String s) {
 
 #### Generate All Permutations of a String
 > Problem: Print all permutations of a given string.
+
 > Approach: Swap characters and recurse.
 ```java
 public void permute(char[] str, int left) {
@@ -1183,6 +1184,7 @@ private void swap(char[] arr, int i, int j) {
 
 #### N-Queens Problem
 > Problem: Place N queens on an N×N chessboard such that no two queens attack each other.
+
 > Approach: Use backtracking and check row, column, diagonal conflicts.
 ```java
 public void solveNQueens(int n) {
@@ -1214,6 +1216,7 @@ private void printBoard(char[][] board) {
 
 #### Word Search (Backtracking)
 > Problem: Check if a word exists in a grid.
+
 > Approach: Use DFS + Backtracking.
 ```java
 public boolean exist(char[][] board, String word) {
@@ -1238,6 +1241,7 @@ private boolean dfs(char[][] board, int i, int j, String word, int index) {
 
 #### Sudoku Solver
 > Problem: Solve a given Sudoku puzzle.
+
 > Approach: Use backtracking to try placing numbers 1-9.
 ```java
 public boolean solveSudoku(char[][] board) {
@@ -1264,7 +1268,7 @@ private boolean isValid(char[][] board, int r, int c, char num) {
 }
 ```
 
-### Generate All Subsets (Power Set)
+#### Generate All Subsets (Power Set)
 ```java
 public void subsets(int[] nums, int index, List<Integer> current, List<List<Integer>> result) {
     if (index == nums.length) {
@@ -1336,6 +1340,7 @@ private void swap(char[] arr, int i, int j) {
 
 #### Combination Sum
 > Problem: Find all unique combinations that sum up to target.
+
 > Approach: Include the same element multiple times.
 ```java
 public void combinationSum(int[] candidates, int index, int target, List<Integer> path) {
@@ -1386,6 +1391,7 @@ public void combinationSum(int[] candidates, int index, int target, List<Integer
 
 #### Rat in a Maze
 > Problem: Find a path for the rat from the top-left to the bottom-right of a maze, moving only right or down through open cells (1s).
+
 > Approach: Recursively explore right and down moves, marking the path in the solution matrix; if a move leads to a dead end, backtrack by resetting the cell.
 ```java
 public boolean solveMaze(int[][] maze, int x, int y, int[][] solution) {
@@ -1401,6 +1407,7 @@ public boolean solveMaze(int[][] maze, int x, int y, int[][] solution) {
 
 #### Generate Balanced Parentheses
 > Problem: Generate all valid combinations of n pairs of parentheses.
+
 > Approach: Use recursion to add ( if open brackets remain and ) if it keeps the sequence valid, backtracking as needed.
 ```java
 public void generateParentheses(int open, int close, String path) {
@@ -1414,6 +1421,7 @@ public void generateParentheses(int open, int close, String path) {
 ## Searching
 ### Binary Search
 > 💡 Problem: Find an element in a sorted array in O(log N) time.
+
 > 🛠️ Approach: Repeatedly divide the search range in half until the target is found.
 ```java
 public int binarySearch(int[] arr, int target) {
@@ -1430,6 +1438,7 @@ public int binarySearch(int[] arr, int target) {
 
 #### Lower Bound (First Position of Target or Greater)
 > 💡 Problem: Find the first index where arr[i] >= target in a sorted array.
+
 > 🛠️ Approach: Use binary search, updating right when condition is met.
 ```java
 public int lowerBound(int[] arr, int target) {
@@ -1445,6 +1454,7 @@ public int lowerBound(int[] arr, int target) {
 
 #### Upper Bound (First Position Greater than Target)
 > 💡 Problem: Find the first index where arr[i] > target in a sorted array.
+
 > 🛠️ Approach: Similar to lower bound but finds the first greater element.
 ```java
 public int upperBound(int[] arr, int target) {
@@ -1460,6 +1470,7 @@ public int upperBound(int[] arr, int target) {
 
 #### Search in Rotated Sorted Array
 > 💡 Problem: Find an element in a rotated sorted array in O(log N).
+
 > 🛠️ Approach: Use binary search and determine which half is sorted.
 ```java
 public int searchRotated(int[] nums, int target) {
@@ -1483,6 +1494,7 @@ public int searchRotated(int[] nums, int target) {
 ## Sorting
 #### Bubble Sort
 > 💡 Problem: Sort an array by repeatedly swapping adjacent elements.
+
 > 🛠️ Approach: Compare and swap adjacent elements if they are out of order.
 ```java
 public void bubbleSort(int[] arr) {
@@ -1501,6 +1513,7 @@ public void bubbleSort(int[] arr) {
 
 #### Selection Sort
 > 💡 Problem: Sort an array by repeatedly finding the smallest element.
+
 > 🛠️ Approach: Select the minimum element and swap it with the first unsorted element.
 ```java
 public void selectionSort(int[] arr) {
@@ -1519,6 +1532,7 @@ public void selectionSort(int[] arr) {
 
 #### Insertion Sort
 > 💡 Problem: Sort an array by inserting elements at their correct position.
+
 > 🛠️ Approach: Insert each element in its correct position in the sorted part.
 ```java
 public void insertionSort(int[] arr) {
@@ -1536,6 +1550,7 @@ public void insertionSort(int[] arr) {
 
 ### Quick Sort (O(n log n) Average, O(n²) Worst)
 > 💡 Problem: Sort an array using a pivot-based partitioning method.
+
 > 🛠️ Approach: Select a pivot, partition elements, and recursively sort partitions.
 ```java
 public void quickSort(int[] arr, int low, int high) {
@@ -1566,6 +1581,7 @@ public int partition(int[] arr, int low, int high) {
 
 ### Merge Sort (O(n log n))
 > 💡 Problem: Sort an array using the divide-and-conquer technique.
+
 > 🛠️ Approach: Recursively divide the array and merge sorted subarrays.
 ```java
 public void mergeSort(int[] arr, int left, int right) {
@@ -1630,6 +1646,7 @@ private void merge(int[] arr, int left, int mid, int right) {
 ### Traversal Algorithms
 ### Breadth-First Search (BFS)
 > 💡 Problem: Traverse all nodes in a graph using BFS.
+
 > 🛠️ Approach: Use a queue to explore nodes level by level.
 ```java
 public void bfs(int start, List<List<Integer>> graph) {
@@ -1669,6 +1686,7 @@ public class GraphDFS {
 ### Shortest Path Algorithms
 #### Dijkstra’s Algorithm (Single Source Shortest Path for Weighted Graph)
 > 💡 Problem: Find the shortest path from a single source to all nodes.
+
 > 🛠️ Approach: Use a priority queue (min-heap) to process nodes with the smallest distance.
 ```java
 import java.util.*;
@@ -1708,6 +1726,7 @@ public class Dijkstra {
 
 #### Floyd-Warshall Algorithm (All-Pairs Shortest Path)
 > 💡 Problem: Find the shortest paths between all pairs of vertices in a weighted graph.
+
 > 🛠️ Approach: Use dynamic programming to update shortest distances iteratively for all pairs of nodes.
 ```java
 public class FloydWarshall {
@@ -1760,6 +1779,7 @@ public class FloydWarshall {
 
 #### Bellman-Ford Algorithm (Handles Negative Weights)
 > 💡 Problem: Find the shortest path from a single source, even with negative weights.
+
 > 🛠️ Approach: Relax all edges V-1 times and check for negative cycles.
 ```java
 import java.util.*;
@@ -1790,6 +1810,7 @@ public class BellmanFord {
 ### Cycle Detection Algorithms
 #### Detect Cycle in a Directed Graph (Using DFS)
 > 💡 Problem: Check if a directed graph contains a cycle.
+
 > 🛠️ Approach: Use DFS with a recursion stack to detect back edges.
 ```java
 public class CycleDetectionDFS {
@@ -1820,6 +1841,7 @@ public class CycleDetectionDFS {
 
 #### Detect Cycle in an Undirected Graph (Using BFS)
 > 💡 Problem: Check if an undirected graph contains a cycle.
+
 > 🛠️ Approach: Use BFS with a parent-tracking method.
 ```java
 import java.util.*;
@@ -1857,6 +1879,7 @@ public class CycleDetectionBFS {
 ### Minimum Spanning Tree (MST) Algorithms
 #### Kruskal’s Algorithm (MST Using Union-Find)
 > 💡 Problem: Find the minimum spanning tree of a graph.
+
 > 🛠️ Approach: Sort edges by weight and use Union-Find to add edges to MST.
 ```java
 import java.util.*;
@@ -1910,6 +1933,7 @@ public class KruskalMST {
 ## Dynamic Programming
 #### Fibonacci Number (Basic DP)
 > 💡 Problem: Find the nth Fibonacci number.
+
 > 🛠️ Approach: Use memoization (top-down) or tabulation (bottom-up) to avoid recomputation.
 ```java
 public class Fibonacci {
@@ -1930,6 +1954,7 @@ public class Fibonacci {
 
 ####  Climbing Stairs
 > 💡 Problem: Given n stairs, find ways to reach the top taking 1 or 2 steps at a time.
+
 > 🛠️ Approach: Similar to Fibonacci, use DP to store solutions to subproblems.
 ```java
 public class ClimbStairs {
@@ -1949,6 +1974,7 @@ public class ClimbStairs {
 
 #### House Robber Problem
 > 💡 Problem: Given an array of houses with values, find the max sum by robbing non-adjacent houses.
+
 > 🛠️ Approach: At each house, choose to rob it (skip the next) or skip it.
 ```java
 public class HouseRobber {
@@ -1973,6 +1999,7 @@ public class HouseRobber {
 
 #### Longest Common Subsequence (LCS)
 > 💡 Problem: Given two strings, find the longest subsequence common to both.
+
 > 🛠️ Approach: Use a 2D DP table to store results for each substring pair.
 ```java
 public class LCS {
@@ -1999,6 +2026,7 @@ public class LCS {
 
 #### Longest Increasing Subsequence (LIS)
 > 💡 Problem: Given an array, find the length of the longest subsequence where elements are in increasing order.
+
 > 🛠️ Approach: Use DP where dp[i] stores the LIS ending at index i. Update dp[i] by checking previous elements.
 ```java
 public class LIS {
@@ -2027,6 +2055,7 @@ public class LIS {
 
 #### Coin Change Problem (Minimum Coins)
 > 💡 Problem: Given a set of coin denominations and a target sum, find the minimum number of coins required to make that sum.
+
 > 🛠️ Approach: Use a 1D DP array where dp[i] represents the minimum number of coins needed to form amount i.
 ```java
 public class CoinChangeMin {
@@ -2052,6 +2081,7 @@ public class CoinChangeMin {
 
 #### Coin Change Problem (Total Ways)
 > 💡 Problem: Given a set of coin denominations and a target sum, find the number of ways to form that sum.
+
 > 🛠️ Approach: Use a 1D DP array where dp[i] represents the number of ways to form amount i.
 ```java
 public class CoinChangeWays {
@@ -2076,6 +2106,7 @@ public class CoinChangeWays {
 
 #### 0/1 Knapsack Problem
 > 💡 Problem: Given weights and values of items, find the max value we can carry within a weight limit.
+
 > 🛠️ Approach: Use a DP table to store the best value for each weight limit.
 ```java
 public class Knapsack {
@@ -2130,6 +2161,7 @@ public class UnboundedKnapsack {
 
 #### Edit Distance (String Transformation)
 > 💡 Problem: Given two strings, find the minimum operations to convert one into the other.
+
 > 🛠️ Approach: Use a DP table to track insertions, deletions, and replacements.
 ```java
 public class EditDistance {
@@ -2159,6 +2191,7 @@ public class EditDistance {
 ## Greedy Algorithms
 #### Activity Selection Problem
 > 💡 Problem: Given n activities with start and end times, select the maximum number of activities that don’t overlap.
+
 > 🛠️ Approach: Sort activities by end time, pick the first one, then keep selecting the next non-overlapping activity.
 ```java
 import java.util.*;
@@ -2195,6 +2228,7 @@ public class ActivitySelection {
 
 #### Huffman Coding (Data Compression)
 > 💡 Problem: Given character frequencies, build an optimal prefix-free binary encoding tree.
+
 > 🛠️ Approach: Use a Min-Heap to iteratively merge two lowest-frequency nodes into one.
 ```java
 import java.util.*;
@@ -2249,6 +2283,7 @@ public class HuffmanCoding {
 
 #### Fractional Knapsack Problem
 > 💡 Problem: Given n items with weights and values, maximize profit by selecting fractions of items.
+
 > 🛠️ Approach: Sort items by value/weight, pick as much as possible greedily.
 ```java
 import java.util.*;
@@ -2284,6 +2319,7 @@ public class FractionalKnapsack {
 
 #### Job Sequencing Problem
 > 💡 Problem: Given jobs with deadlines and profits, schedule them to maximize total profit.
+
 > 🛠️ Approach: Sort jobs by profit, use a greedy strategy to find the best available slot.
 ```java
 import java.util.*;
@@ -2320,6 +2356,7 @@ public class JobSequencing {
 
 #### Minimum Spanning Tree (Prim’s Algorithm)
 > 💡 Problem: Find the minimum spanning tree (MST) for a given weighted graph.
+
 > 🛠️ Approach: Use a Priority Queue (Min-Heap) to greedily select edges with the least weight.
 ```java
 import java.util.*;
