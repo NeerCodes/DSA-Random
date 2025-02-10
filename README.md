@@ -4,6 +4,7 @@ Random DSA Patterns for revision.
 ## ARRAYS
 #### Maximum Subarray (Kadane's Algorithm)
 > Problem: Find the contiguous subarray with the largest sum.
+
 > Approach: Use Kadane's algorithm to track the maximum sum ending at each index.
 ```java
   public int maxSubArray(int[] nums) {
@@ -175,6 +176,7 @@ public int search(int[] nums, int target) {
 
 #### Two Pointers Technique
 > Used for problems involving arrays or strings, such as finding pairs or reversing.
+
 > Example: Two Sum Problem.
 ```java
 public int[] twoSum(int[] nums, int target) {
@@ -332,7 +334,9 @@ boolean hasCycle(ListNode head){
 
 > Using slow and fast pointers (Floyd’s Cycle Detection)
 - Problem: Check if a linked list has a cycle.
+  
 - Approach: Use two pointers (slow, fast); if they meet, there’s a cycle.
+  
 - T = O(N)
 ```java
 boolean hasCycle(ListNode head) {
@@ -358,7 +362,9 @@ boolean hasCycle(ListNode head) {
 
 #### Reverse a Linked List
 > Problem: Reverse a given singly linked list.
+
 > Approach: Use three pointers (prev, curr, next) to reverse links iteratively.
+
 > T = O(N)
 ```java
 public ListNode reverseList(ListNode head) {
@@ -375,7 +381,9 @@ public ListNode reverseList(ListNode head) {
 
 #### Find Start of Cycle in Linked List
 > Problem: Find the node where the cycle begins.
+
 > Approach: After cycle detection, move one pointer to head, move both one step at a time.
+
 > T = O(N)
 ```java
 public ListNode detectCycle(ListNode head) {
@@ -398,7 +406,9 @@ public ListNode detectCycle(ListNode head) {
 
 ### Merge Two Sorted Linked Lists
 > Problem: Merge two sorted linked lists into one sorted list.
+
 > Approach: Use a dummy node and iterate through both lists, connecting nodes in sorted order.
+
 > T = O(N)
 ```java
 public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
@@ -420,7 +430,7 @@ public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
 
 ### Merge K Sorted Lists
 > compare every 2 lists, call 'merge2sortedLists' function, and keep doing until we have a bigger list.
-> 
+
 > Merge Two Lists at a Time (Divide & Conquer) - O(N log K)
 ```java
 public ListNode mergeKLists(ListNode[] lists) {
@@ -458,6 +468,7 @@ public ListNode mergeKLists(ListNode[] lists) {
 - Similar to Merge Sort, resulting in O(N log K) time complexity.
 
 > Add all the lists into one big array or list -> sort the array -> then put the elements back into a new LL
+
 > Using a Priority Queue (Min-Heap) - O(N log K)
 ```java
 public ListNode mergeKLists(ListNode[] lists) {
@@ -484,7 +495,9 @@ public ListNode mergeKLists(ListNode[] lists) {
 
 #### Remove N-th Node from End
 > Problem: Remove the N-th node from the end of the linked list.
+
 > Approach: Use two pointers with a gap of N, move both till end, delete required node.
+
 > T = O(N)
 ```java
 public ListNode removeNthFromEnd(ListNode head, int n) {
@@ -503,7 +516,9 @@ public ListNode removeNthFromEnd(ListNode head, int n) {
 
 #### Find Middle of Linked List
 > Problem: Find the middle node of a linked list.
+
 > Approach: Use slow and fast pointers; fast moves twice as fast as slow.
+
 > T = O(N)
 ```java
 public ListNode middleNode(ListNode head) {
@@ -518,7 +533,9 @@ public ListNode middleNode(ListNode head) {
 
 #### Check if Linked List is Palindrome
 > Problem: Check if a linked list reads the same forward and backward.
+
 > Approach: Find the middle, reverse second half, compare both halves.
+
 > T = O(N)
 ```java
 public boolean isPalindrome(ListNode head) {
@@ -552,7 +569,9 @@ private ListNode reverse(ListNode head) {
 
 #### Reverse in Groups of K
 > Problem: Reverse the linked list in groups of K.
+
 > Approach: Reverse first K nodes recursively, then connect.
+
 > T = O(N)
 ```java
 public ListNode reverseKGroup(ListNode head, int k) {
@@ -578,7 +597,9 @@ public ListNode reverseKGroup(ListNode head, int k) {
 
 #### Intersection of Two Linked Lists
 > Problem: Find the node where two linked lists intersect.
+
 > Approach: Use two pointers, move them to opposite lists when reaching the end.
+
 > T = O(N)
 
 ```java
@@ -594,6 +615,7 @@ public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
 
 #### Flatten a Multilevel Linked List
 > Problem: Flatten a linked list where nodes have an extra child pointer.
+
 > Approach: Use DFS or an iterative approach with a stack. T = O(N)
 ```java
 public Node flatten(Node head) {
@@ -633,6 +655,7 @@ for (int i = k; i < n; i++){
 ## STACK
 #### Valid Parentheses
 > Problem: Check if a given string of parentheses is valid.
+
 > Approach: Use a stack to track opening brackets and match them with closing ones.
 ```java
 public boolean isValid(String s) {
@@ -651,6 +674,7 @@ public boolean isValid(String s) {
 
 #### Next Greater Element
 > Problem: Find the next greater element for each element in an array.
+
 > Approach: Use a stack to store indices and find the next greater element efficiently.
 ```java
 public int[] nextGreaterElement(int[] nums) {
@@ -667,6 +691,7 @@ public int[] nextGreaterElement(int[] nums) {
 
 #### Daily Temperatures (Next Greater Element Variant)
 > Problem: Find the number of days until a warmer temperature appears.
+
 > Approach: Use a monotonic decreasing stack to store indices.
 ```java
 public int[] dailyTemperatures(int[] T) {
@@ -685,6 +710,7 @@ public int[] dailyTemperatures(int[] T) {
 
 #### Next Smaller Element
 > Problem: For each element, find the next smaller element to the right.
+
 > Approach: Similar to Next Greater Element, but using a monotonic increasing stack.
 ```java
 public int[] nextSmallerElement(int[] nums) {
@@ -701,6 +727,7 @@ public int[] nextSmallerElement(int[] nums) {
 
 #### Largest Rectangle in Histogram
 > Problem: Find the largest rectangular area in a histogram.
+
 > Approach: Use a stack to maintain indices of increasing heights.
 ```java
 public int largestRectangleArea(int[] heights) {
@@ -721,6 +748,7 @@ public int largestRectangleArea(int[] heights) {
 
 #### Max Area of Binary Matrix (Largest Rectangle in Binary Matrix)
 > Problem: Find the largest rectangle of 1s in a binary matrix.
+
 > Approach: Convert each row into histogram heights, then use Largest Rectangle in Histogram.
 ```java
 public int maximalRectangle(char[][] matrix) {
@@ -737,6 +765,7 @@ public int maximalRectangle(char[][] matrix) {
 
 #### Simplify Path (Unix Path)
 > Problem: Simplify a Unix file path like /home/../usr//bin/.
+
 > Approach: Use a stack to track valid directory names.
 ```java
 public String simplifyPath(String path) {
@@ -751,6 +780,7 @@ public String simplifyPath(String path) {
 
 #### Min Stack (Stack with Get Minimum in O(1))
 > Problem: Implement a stack that supports push, pop, top, and retrieving the minimum element in O(1).
+
 > Approach: Use two stacks, one for values and one for minimums
 ```java
 class MinStack {
@@ -778,6 +808,7 @@ class MinStack {
 
 #### Implement Stack using Queues
 > Problem: Implement a stack using two queues.
+
 > Approach: Use a single queue and push elements in reverse order.
 ```java
 class MyStack {
@@ -826,6 +857,7 @@ class MyStack {
 
 #### Evaluate Reverse Polish Notation (Postfix Expression)
 > Problem: Evaluate an arithmetic expression given in postfix notation.
+
 > Approach: Use a stack, push numbers, pop and compute when encountering an operator.
 ```java
 public int evalRPN(String[] tokens) {
@@ -847,6 +879,7 @@ public int evalRPN(String[] tokens) {
 
 #### Stock Span Problem
 > Problem: Find the span of stock prices for each day.
+
 > Approach: Use a monotonic decreasing stack to track indices.
 ```java
 public int[] stockSpan(int[] prices) {
@@ -864,6 +897,7 @@ public int[] stockSpan(int[] prices) {
 ## QUEUE
 #### Implement Queue using Stacks
 > Problem: Implement a queue using two stacks.
+
 > Approach: Use two stacks (one for enqueue, one for dequeue).
 ```java
 class MyQueue {
@@ -892,6 +926,7 @@ class MyQueue {
 
 #### Implement Stack using Queue
 > Problem: Implement a stack using two queues with push() and pop().
+
 > Approach: Push elements into the queue and rotate it for LIFO order.
 ```java
 class MyStack {
@@ -918,6 +953,7 @@ class MyStack {
 
 #### Sliding Window Maximum
 > Problem: Find the maximum in every sliding window of size k.
+
 > Approach: Use a Deque (monotonic decreasing) to keep track of max elements.
 ```java
 public int[] maxSlidingWindow(int[] nums, int k) {
@@ -935,6 +971,7 @@ public int[] maxSlidingWindow(int[] nums, int k) {
 
 #### First Unique Character in a String
 > Problem: Find the first non-repeating character in a string.
+
 > Approach: Use a queue to track characters and remove repeated ones.
 ```java
 public char firstUniqChar(String s) {
@@ -951,6 +988,7 @@ public char firstUniqChar(String s) {
 
 #### Rotten Oranges (Shortest Path in Grid)
 > Problem: Find the minimum time to rot all oranges in a grid.
+
 > Approach: Use BFS (multi-source) starting from rotten oranges.
 ```java
 public int orangesRotting(int[][] grid) {
@@ -987,6 +1025,7 @@ public int orangesRotting(int[][] grid) {
 
 #### Number of Islands
 > Problem: Count the number of islands in a grid (1s are land).
+
 > Approach: Use BFS (or DFS) to traverse and mark connected components.
 ```java
 public int numIslands(char[][] grid) {
@@ -1023,6 +1062,7 @@ private void bfs(char[][] grid, int i, int j) {
 
 #### LRU Cache (Least Recently Used Cache)
 > Problem: Design an LRU cache that evicts the least recently used item.
+
 > Approach: Use HashMap + Doubly LinkedList for O(1) operations.
 ```java
 class LRUCache {
@@ -1081,6 +1121,7 @@ class LRUCache {
 ## RECURSION 
 #### Factorial of a Number
 > Problem: Compute the factorial of n.
+
 > Approach: Use recursion, fact(n) = n * fact(n - 1).
 ```java
 public int factorial(int n) {
@@ -1090,6 +1131,7 @@ public int factorial(int n) {
 
 #### Fibonacci Series
 > Problem: Find the nth Fibonacci number.
+
 > Approach: Use recursion, fib(n) = fib(n-1) + fib(n-2), optimized with memoization.
 ```java
 public int fibonacci(int n, Map<Integer, Integer> memo) {
@@ -1101,6 +1143,7 @@ public int fibonacci(int n, Map<Integer, Integer> memo) {
 
 #### Print All Subsequences of an Array
 > Problem: Print all subsequences (power set).
+
 > Approach: Recursively include/exclude each element.
 ```java
 public void printSubsequences(int[] arr, int index, List<Integer> path) {
@@ -1117,6 +1160,7 @@ public void printSubsequences(int[] arr, int index, List<Integer> path) {
 
 #### Subset Sum
 > Problem: Find all subsets that sum to a target value.
+
 > Approach: Recursively include/exclude numbers and track the sum.
 ```java
 public void subsetSum(int[] nums, int index, int sum, int target, List<Integer> path) {
