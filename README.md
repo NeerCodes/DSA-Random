@@ -1411,21 +1411,132 @@ public void generateParentheses(int open, int close, String path) {
 ```
 
 ## SEARCHING and SORTING
+## Searching
 ### Binary Search
+> 💡 Problem: Find an element in a sorted array in O(log N) time.
+> 🛠️ Approach: Repeatedly divide the search range in half until the target is found.
 ```java
 public int binarySearch(int[] arr, int target) {
     int left = 0, right = arr.length - 1;
     while (left <= right) {
         int mid = left + (right - left) / 2;
         if (arr[mid] == target) return mid;
-        if (arr[mid] < target) left = mid + 1;
+        else if (arr[mid] < target) left = mid + 1;
         else right = mid - 1;
     }
     return -1;
 }
 ```
 
-### Quick Sort
+#### Lower Bound (First Position of Target or Greater)
+> 💡 Problem: Find the first index where arr[i] >= target in a sorted array.
+> 🛠️ Approach: Use binary search, updating right when condition is met.
+```java
+public int lowerBound(int[] arr, int target) {
+    int left = 0, right = arr.length;
+    while (left < right) {
+        int mid = left + (right - left) / 2;
+        if (arr[mid] >= target) right = mid;
+        else left = mid + 1;
+    }
+    return left;
+}
+```
+
+#### Upper Bound (First Position Greater than Target)
+> 💡 Problem: Find the first index where arr[i] > target in a sorted array.
+> 🛠️ Approach: Similar to lower bound but finds the first greater element.
+```java
+public int upperBound(int[] arr, int target) {
+    int left = 0, right = arr.length;
+    while (left < right) {
+        int mid = left + (right - left) / 2;
+        if (arr[mid] > target) right = mid;
+        else left = mid + 1;
+    }
+    return left;
+}
+```
+
+#### Search in Rotated Sorted Array
+> 💡 Problem: Find an element in a rotated sorted array in O(log N).
+> 🛠️ Approach: Use binary search and determine which half is sorted.
+```java
+public int searchRotated(int[] nums, int target) {
+    int left = 0, right = nums.length - 1;
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] == target) return mid;
+        if (nums[left] <= nums[mid]) { 
+            if (nums[left] <= target && target < nums[mid]) right = mid - 1;
+            else left = mid + 1;
+        } else {
+            if (nums[mid] < target && target <= nums[right]) left = mid + 1;
+            else right = mid - 1;
+        }
+    }
+    return -1;
+}
+```
+
+
+## Sorting
+#### Bubble Sort
+> 💡 Problem: Sort an array by repeatedly swapping adjacent elements.
+> 🛠️ Approach: Compare and swap adjacent elements if they are out of order.
+```java
+public void bubbleSort(int[] arr) {
+    int n = arr.length;
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+```
+
+#### Selection Sort
+> 💡 Problem: Sort an array by repeatedly finding the smallest element.
+> 🛠️ Approach: Select the minimum element and swap it with the first unsorted element.
+```java
+public void selectionSort(int[] arr) {
+    int n = arr.length;
+    for (int i = 0; i < n - 1; i++) {
+        int minIdx = i;
+        for (int j = i + 1; j < n; j++) {
+            if (arr[j] < arr[minIdx]) minIdx = j;
+        }
+        int temp = arr[minIdx];
+        arr[minIdx] = arr[i];
+        arr[i] = temp;
+    }
+}
+```
+
+#### Insertion Sort
+> 💡 Problem: Sort an array by inserting elements at their correct position.
+> 🛠️ Approach: Insert each element in its correct position in the sorted part.
+```java
+public void insertionSort(int[] arr) {
+    int n = arr.length;
+    for (int i = 1; i < n; i++) {
+        int key = arr[i], j = i - 1;
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = key;
+    }
+}
+```
+
+### Quick Sort (O(n log n) Average, O(n²) Worst)
+> 💡 Problem: Sort an array using a pivot-based partitioning method.
+> 🛠️ Approach: Select a pivot, partition elements, and recursively sort partitions.
 ```java
 public void quickSort(int[] arr, int low, int high) {
     if (low < high) {
@@ -1451,10 +1562,11 @@ public int partition(int[] arr, int low, int high) {
     arr[high] = temp;
     return i + 1;
 }
-
 ```
 
-### Merge Sort
+### Merge Sort (O(n log n))
+> 💡 Problem: Sort an array using the divide-and-conquer technique.
+> 🛠️ Approach: Recursively divide the array and merge sorted subarrays.
 ```java
 public void mergeSort(int[] arr, int left, int right) {
         if (left < right) {
@@ -1515,7 +1627,10 @@ private void merge(int[] arr, int left, int mid, int right) {
 
 
 ## Graph Algorithms
+### Traversal Algorithms
 ### Breadth-First Search (BFS)
+> 💡 Problem: Traverse all nodes in a graph using BFS.
+> 🛠️ Approach: Use a queue to explore nodes level by level.
 ```java
 public void bfs(int start, List<List<Integer>> graph) {
     Queue<Integer> queue = new LinkedList<>();
@@ -1536,176 +1651,719 @@ public void bfs(int start, List<List<Integer>> graph) {
 ```
 
 ### Depth-First Search (DFS)
+> 💡 Problem: Traverse all nodes in a graph using DFS.
+> 🛠️ Approach: Recursively visit nodes, marking them as visited.
 ```java
-public void dfs(int node, List<List<Integer>> graph, boolean[] visited) {
-    visited[node] = true;
-    System.out.print(node + " ");
-    for (int neighbor : graph.get(node)) {
-        if (!visited[neighbor]) {
-            dfs(neighbor, graph, visited);
+import java.util.*;
+
+public class GraphDFS {
+    public void dfs(int node, List<List<Integer>> adj, boolean[] visited) {
+        visited[node] = true;
+        System.out.print(node + " ");
+        for (int neighbor : adj.get(node)) {
+            if (!visited[neighbor]) dfs(neighbor, adj, visited);
         }
     }
 }
 ```
-
-### Dijkstra’s Algorithm
+### Shortest Path Algorithms
+#### Dijkstra’s Algorithm (Single Source Shortest Path for Weighted Graph)
+> 💡 Problem: Find the shortest path from a single source to all nodes.
+> 🛠️ Approach: Use a priority queue (min-heap) to process nodes with the smallest distance.
 ```java
-public int[] dijkstra(int V, List<List<int[]>> adj, int src) {
-    int[] dist = new int[V];
-    Arrays.fill(dist, Integer.MAX_VALUE);
-    dist[src] = 0;
-    PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[1] - b[1]);
-    pq.add(new int[]{src, 0});
-    while (!pq.isEmpty()) {
-        int[] node = pq.poll();
-        int u = node[0], d = node[1];
-        for (int[] edge : adj.get(u)) {
-            int v = edge[0], weight = edge[1];
-            if (dist[u] + weight < dist[v]) {
-                dist[v] = dist[u] + weight;
-                pq.add(new int[]{v, dist[v]});
+import java.util.*;
+
+public class Dijkstra {
+    static class Pair {
+        int node, weight;
+        Pair(int node, int weight) { this.node = node; this.weight = weight; }
+    }
+
+    public int[] dijkstra(int V, List<List<Pair>> adj, int src) {
+        PriorityQueue<Pair> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a.weight));
+        int[] dist = new int[V];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[src] = 0;
+        pq.add(new Pair(src, 0));
+
+        while (!pq.isEmpty()) {
+            Pair current = pq.poll();
+            int u = current.node;
+            int d = current.weight;
+
+            if (d > dist[u]) continue;
+
+            for (Pair neighbor : adj.get(u)) {
+                int v = neighbor.node, weight = neighbor.weight;
+                if (dist[u] + weight < dist[v]) {
+                    dist[v] = dist[u] + weight;
+                    pq.add(new Pair(v, dist[v]));
+                }
             }
         }
+        return dist;
     }
-    return dist;
 }
 ```
 
-### Floyd-Warshall Algorithm
+#### Floyd-Warshall Algorithm (All-Pairs Shortest Path)
+> 💡 Problem: Find the shortest paths between all pairs of vertices in a weighted graph.
+> 🛠️ Approach: Use dynamic programming to update shortest distances iteratively for all pairs of nodes.
 ```java
-public void floydWarshall(int[][] graph) {
-    int V = graph.length;
-    for (int k = 0; k < V; k++) {
+public class FloydWarshall {
+    static final int INF = 1000000; // Representing Infinity
+
+    public void floydWarshall(int[][] graph) {
+        int V = graph.length;
+        int[][] dist = new int[V][V];
+
+        // Initialize distance matrix with given graph
         for (int i = 0; i < V; i++) {
             for (int j = 0; j < V; j++) {
-                graph[i][j] = Math.min(graph[i][j], graph[i][k] + graph[k][j]);
+                dist[i][j] = graph[i][j];
             }
         }
+
+        // Updating distances considering each node as an intermediate
+        for (int k = 0; k < V; k++) {
+            for (int i = 0; i < V; i++) {
+                for (int j = 0; j < V; j++) {
+                    if (dist[i][k] != INF && dist[k][j] != INF && dist[i][k] + dist[k][j] < dist[i][j]) {
+                        dist[i][j] = dist[i][k] + dist[k][j];
+                    }
+                }
+            }
+        }
+
+        // Print shortest distances matrix
+        for (int i = 0; i < V; i++) {
+            for (int j = 0; j < V; j++) {
+                System.out.print((dist[i][j] == INF ? "INF" : dist[i][j]) + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        int[][] graph = {
+            {0, 3, INF, 5},
+            {2, 0, INF, 4},
+            {INF, 1, 0, INF},
+            {INF, INF, 2, 0}
+        };
+
+        FloydWarshall fw = new FloydWarshall();
+        fw.floydWarshall(graph);
+    }
+}
+```
+
+#### Bellman-Ford Algorithm (Handles Negative Weights)
+> 💡 Problem: Find the shortest path from a single source, even with negative weights.
+> 🛠️ Approach: Relax all edges V-1 times and check for negative cycles.
+```java
+import java.util.*;
+
+public class BellmanFord {
+    static class Edge {
+        int src, dest, weight;
+        Edge(int src, int dest, int weight) { this.src = src; this.dest = dest; this.weight = weight; }
+    }
+
+    public int[] bellmanFord(int V, List<Edge> edges, int src) {
+        int[] dist = new int[V];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[src] = 0;
+
+        for (int i = 0; i < V - 1; i++) {
+            for (Edge edge : edges) {
+                if (dist[edge.src] != Integer.MAX_VALUE && dist[edge.src] + edge.weight < dist[edge.dest]) {
+                    dist[edge.dest] = dist[edge.src] + edge.weight;
+                }
+            }
+        }
+        return dist;
+    }
+}
+```
+
+### Cycle Detection Algorithms
+#### Detect Cycle in a Directed Graph (Using DFS)
+> 💡 Problem: Check if a directed graph contains a cycle.
+> 🛠️ Approach: Use DFS with a recursion stack to detect back edges.
+```java
+public class CycleDetectionDFS {
+    public boolean dfs(int node, List<List<Integer>> adj, boolean[] visited, boolean[] recStack) {
+        visited[node] = true;
+        recStack[node] = true;
+
+        for (int neighbor : adj.get(node)) {
+            if (!visited[neighbor] && dfs(neighbor, adj, visited, recStack)) return true;
+            else if (recStack[neighbor]) return true;
+        }
+
+        recStack[node] = false;
+        return false;
+    }
+
+    public boolean hasCycle(int V, List<List<Integer>> adj) {
+        boolean[] visited = new boolean[V];
+        boolean[] recStack = new boolean[V];
+
+        for (int i = 0; i < V; i++) {
+            if (!visited[i] && dfs(i, adj, visited, recStack)) return true;
+        }
+        return false;
+    }
+}
+```
+
+#### Detect Cycle in an Undirected Graph (Using BFS)
+> 💡 Problem: Check if an undirected graph contains a cycle.
+> 🛠️ Approach: Use BFS with a parent-tracking method.
+```java
+import java.util.*;
+
+public class CycleDetectionBFS {
+    public boolean hasCycle(int V, List<List<Integer>> adj) {
+        boolean[] visited = new boolean[V];
+        Queue<int[]> queue = new LinkedList<>();
+
+        for (int i = 0; i < V; i++) {
+            if (!visited[i]) {
+                queue.add(new int[]{i, -1});
+                visited[i] = true;
+
+                while (!queue.isEmpty()) {
+                    int[] node = queue.poll();
+                    int curr = node[0], parent = node[1];
+
+                    for (int neighbor : adj.get(curr)) {
+                        if (!visited[neighbor]) {
+                            visited[neighbor] = true;
+                            queue.add(new int[]{neighbor, curr});
+                        } else if (neighbor != parent) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+}
+```
+
+### Minimum Spanning Tree (MST) Algorithms
+#### Kruskal’s Algorithm (MST Using Union-Find)
+> 💡 Problem: Find the minimum spanning tree of a graph.
+> 🛠️ Approach: Sort edges by weight and use Union-Find to add edges to MST.
+```java
+import java.util.*;
+
+public class KruskalMST {
+    static class Edge implements Comparable<Edge> {
+        int src, dest, weight;
+        Edge(int src, int dest, int weight) { this.src = src; this.dest = dest; this.weight = weight; }
+        public int compareTo(Edge e) { return this.weight - e.weight; }
+    }
+
+    static class UnionFind {
+        int[] parent, rank;
+        UnionFind(int n) {
+            parent = new int[n];
+            rank = new int[n];
+            for (int i = 0; i < n; i++) parent[i] = i;
+        }
+        int find(int x) {
+            if (parent[x] != x) parent[x] = find(parent[x]);
+            return parent[x];
+        }
+        boolean union(int x, int y) {
+            int rootX = find(x), rootY = find(y);
+            if (rootX == rootY) return false;
+            if (rank[rootX] > rank[rootY]) parent[rootY] = rootX;
+            else if (rank[rootX] < rank[rootY]) parent[rootX] = rootY;
+            else { parent[rootY] = rootX; rank[rootX]++; }
+            return true;
+        }
+    }
+
+    public int kruskal(int V, List<Edge> edges) {
+        Collections.sort(edges);
+        UnionFind uf = new UnionFind(V);
+        int mstWeight = 0, edgeCount = 0;
+
+        for (Edge edge : edges) {
+            if (uf.union(edge.src, edge.dest)) {
+                mstWeight += edge.weight;
+                edgeCount++;
+                if (edgeCount == V - 1) break;
+            }
+        }
+        return mstWeight;
     }
 }
 ```
 
 
 ## Dynamic Programming
-### Fibonacci Sequence
+#### Fibonacci Number (Basic DP)
+> 💡 Problem: Find the nth Fibonacci number.
+> 🛠️ Approach: Use memoization (top-down) or tabulation (bottom-up) to avoid recomputation.
 ```java
-public int fib(int n) {
-    if (n <= 1) return n;
-    int[] dp = new int[n + 1];
-    dp[0] = 0; dp[1] = 1;
-    for (int i = 2; i <= n; i++) {
-        dp[i] = dp[i - 1] + dp[i - 2];
+public class Fibonacci {
+    public static int fib(int n, int[] dp) {
+        if (n <= 1) return n;
+        if (dp[n] != -1) return dp[n];
+        return dp[n] = fib(n - 1, dp) + fib(n - 2, dp);
     }
-    return dp[n];
+
+    public static void main(String[] args) {
+        int n = 10;
+        int[] dp = new int[n + 1];
+        Arrays.fill(dp, -1);
+        System.out.println(fib(n, dp)); // Output: 55
+    }
 }
 ```
 
-### Longest Common Subsequence (LCS)
+####  Climbing Stairs
+> 💡 Problem: Given n stairs, find ways to reach the top taking 1 or 2 steps at a time.
+> 🛠️ Approach: Similar to Fibonacci, use DP to store solutions to subproblems.
 ```java
-public int lcs(String text1, String text2) {
-    int m = text1.length(), n = text2.length();
-    int[][] dp = new int[m + 1][n + 1];
-    for (int i = 1; i <= m; i++) {
-        for (int j = 1; j <= n; j++) {
-            if (text1.charAt(i - 1) == text2.charAt(j - 1)) {
-                dp[i][j] = dp[i - 1][j - 1] + 1;
-            } else {
-                dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+public class ClimbStairs {
+    public static int climbStairs(int n) {
+        if (n <= 2) return n;
+        int[] dp = new int[n + 1];
+        dp[1] = 1; dp[2] = 2;
+        for (int i = 3; i <= n; i++) dp[i] = dp[i - 1] + dp[i - 2];
+        return dp[n];
+    }
+
+    public static void main(String[] args) {
+        System.out.println(climbStairs(5)); // Output: 8
+    }
+}
+```
+
+#### House Robber Problem
+> 💡 Problem: Given an array of houses with values, find the max sum by robbing non-adjacent houses.
+> 🛠️ Approach: At each house, choose to rob it (skip the next) or skip it.
+```java
+public class HouseRobber {
+    public static int rob(int[] nums) {
+        if (nums.length == 0) return 0;
+        if (nums.length == 1) return nums[0];
+
+        int[] dp = new int[nums.length];
+        dp[0] = nums[0]; dp[1] = Math.max(nums[0], nums[1]);
+
+        for (int i = 2; i < nums.length; i++)
+            dp[i] = Math.max(nums[i] + dp[i - 2], dp[i - 1]);
+
+        return dp[nums.length - 1];
+    }
+
+    public static void main(String[] args) {
+        System.out.println(rob(new int[]{2, 7, 9, 3, 1})); // Output: 12
+    }
+}
+```
+
+#### Longest Common Subsequence (LCS)
+> 💡 Problem: Given two strings, find the longest subsequence common to both.
+> 🛠️ Approach: Use a 2D DP table to store results for each substring pair.
+```java
+public class LCS {
+    public static int lcs(String s1, String s2) {
+        int m = s1.length(), n = s2.length();
+        int[][] dp = new int[m + 1][n + 1];
+
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (s1.charAt(i - 1) == s2.charAt(j - 1))
+                    dp[i][j] = 1 + dp[i - 1][j - 1];
+                else
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
             }
         }
+        return dp[m][n];
     }
-    return dp[m][n];
+
+    public static void main(String[] args) {
+        System.out.println(lcs("abcde", "ace")); // Output: 3
+    }
 }
 ```
 
-### Longest Increasing Subsequence (LIS)
-> **Problem Statement:** Find the length of the longest subsequence of a given sequence such that all elements are in increasing order.
+#### Longest Increasing Subsequence (LIS)
+> 💡 Problem: Given an array, find the length of the longest subsequence where elements are in increasing order.
+> 🛠️ Approach: Use DP where dp[i] stores the LIS ending at index i. Update dp[i] by checking previous elements.
 ```java
-public int lengthOfLIS(int[] nums) {
-    int[] dp = new int[nums.length];
-    Arrays.fill(dp, 1);
-    int maxLen = 1;
-    for (int i = 1; i < nums.length; i++) {
-        for (int j = 0; j < i; j++) {
-            if (nums[i] > nums[j]) {
-                dp[i] = Math.max(dp[i], dp[j] + 1);
+public class LIS {
+    public static int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n];
+        Arrays.fill(dp, 1);
+        int maxLIS = 1;
+
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[i] > nums[j])
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
             }
+            maxLIS = Math.max(maxLIS, dp[i]);
         }
-        maxLen = Math.max(maxLen, dp[i]);
+        return maxLIS;
     }
-    return maxLen;
+
+    public static void main(String[] args) {
+        int[] nums = {10, 9, 2, 5, 3, 7, 101, 18};
+        System.out.println(lengthOfLIS(nums)); // Output: 4 (2,3,7,101)
+    }
 }
 ```
 
-### Coin Change Problem
-> **Problem Statement:** Find the minimum number of coins required to make a given amount.
+#### Coin Change Problem (Minimum Coins)
+> 💡 Problem: Given a set of coin denominations and a target sum, find the minimum number of coins required to make that sum.
+> 🛠️ Approach: Use a 1D DP array where dp[i] represents the minimum number of coins needed to form amount i.
 ```java
-public int coinChange(int[] coins, int amount) {
-    int[] dp = new int[amount + 1];
-    Arrays.fill(dp, amount + 1);
-    dp[0] = 0;
-    for (int i = 1; i <= amount; i++) {
+public class CoinChangeMin {
+    public static int coinChange(int[] coins, int amount) {
+        int[] dp = new int[amount + 1];
+        Arrays.fill(dp, amount + 1);
+        dp[0] = 0;
+
         for (int coin : coins) {
-            if (coin <= i) {
+            for (int i = coin; i <= amount; i++)
                 dp[i] = Math.min(dp[i], dp[i - coin] + 1);
-            }
         }
+        return dp[amount] == amount + 1 ? -1 : dp[amount];
     }
-    return dp[amount] > amount ? -1 : dp[amount];
+
+    public static void main(String[] args) {
+        int[] coins = {1, 2, 5};
+        int amount = 11;
+        System.out.println(coinChange(coins, amount)); // Output: 3 (5+5+1)
+    }
 }
 ```
 
-### 0-1 Knapsack Problem
+#### Coin Change Problem (Total Ways)
+> 💡 Problem: Given a set of coin denominations and a target sum, find the number of ways to form that sum.
+> 🛠️ Approach: Use a 1D DP array where dp[i] represents the number of ways to form amount i.
 ```java
-public int knapsack(int[] weights, int[] values, int W) {
-    int n = weights.length;
-    int[][] dp = new int[n + 1][W + 1];
-    for (int i = 1; i <= n; i++) {
-        for (int j = 0; j <= W; j++) {
-            if (weights[i - 1] <= j) {
-                dp[i][j] = Math.max(dp[i - 1][j], values[i - 1] + dp[i - 1][j - weights[i - 1]]);
-            } else {
-                dp[i][j] = dp[i - 1][j];
+public class CoinChangeWays {
+    public static int coinChangeWays(int[] coins, int amount) {
+        int[] dp = new int[amount + 1];
+        dp[0] = 1;
+
+        for (int coin : coins) {
+            for (int i = coin; i <= amount; i++)
+                dp[i] += dp[i - coin];
+        }
+        return dp[amount];
+    }
+
+    public static void main(String[] args) {
+        int[] coins = {1, 2, 5};
+        int amount = 5;
+        System.out.println(coinChangeWays(coins, amount)); // Output: 4
+    }
+}
+```
+
+#### 0/1 Knapsack Problem
+> 💡 Problem: Given weights and values of items, find the max value we can carry within a weight limit.
+> 🛠️ Approach: Use a DP table to store the best value for each weight limit.
+```java
+public class Knapsack {
+    public static int knapsack(int W, int[] wt, int[] val, int n) {
+        int[][] dp = new int[n + 1][W + 1];
+
+        for (int i = 1; i <= n; i++) {
+            for (int w = 1; w <= W; w++) {
+                if (wt[i - 1] <= w)
+                    dp[i][w] = Math.max(val[i - 1] + dp[i - 1][w - wt[i - 1]], dp[i - 1][w]);
+                else
+                    dp[i][w] = dp[i - 1][w];
             }
         }
+        return dp[n][W];
     }
-    return dp[n][W];
+
+    public static void main(String[] args) {
+        int[] val = {60, 100, 120};
+        int[] wt = {10, 20, 30};
+        int W = 50;
+        System.out.println(knapsack(W, wt, val, val.length)); // Output: 220
+    }
 }
 ```
 
 ### Unbounded Knapsack
+> 💡 Problem: Given weights and values of items, find the maximum value we can achieve within a weight limit, but unlike 0/1 Knapsack, we can take unlimited instances of an item.
+> 🛠️ Approach: Use a 1D DP array where dp[i] represents the maximum value that can be achieved with weight i.
 ```java
-public int unboundedKnapsack(int[] weights, int[] values, int W) {
-    int n = weights.length;
-    int[] dp = new int[W + 1];
-    for (int j = 0; j <= W; j++) {
-        for (int i = 0; i < n; i++) {
-            if (weights[i] <= j) {
-                dp[j] = Math.max(dp[j], values[i] + dp[j - weights[i]]);
+public class UnboundedKnapsack {
+    public static int unboundedKnapsack(int W, int[] wt, int[] val) {
+        int[] dp = new int[W + 1];
+
+        for (int i = 0; i <= W; i++) {
+            for (int j = 0; j < wt.length; j++) {
+                if (wt[j] <= i)
+                    dp[i] = Math.max(dp[i], dp[i - wt[j]] + val[j]);
             }
         }
+        return dp[W];
     }
-    return dp[W];
+
+    public static void main(String[] args) {
+        int[] val = {10, 40, 50, 70};
+        int[] wt = {1, 3, 4, 5};
+        int W = 8;
+        System.out.println(unboundedKnapsack(W, wt, val)); // Output: 110
+    }
 }
 ```
 
+#### Edit Distance (String Transformation)
+> 💡 Problem: Given two strings, find the minimum operations to convert one into the other.
+> 🛠️ Approach: Use a DP table to track insertions, deletions, and replacements.
+```java
+public class EditDistance {
+    public static int minDistance(String word1, String word2) {
+        int m = word1.length(), n = word2.length();
+        int[][] dp = new int[m + 1][n + 1];
+
+        for (int i = 0; i <= m; i++) {
+            for (int j = 0; j <= n; j++) {
+                if (i == 0) dp[i][j] = j;
+                else if (j == 0) dp[i][j] = i;
+                else if (word1.charAt(i - 1) == word2.charAt(j - 1))
+                    dp[i][j] = dp[i - 1][j - 1];
+                else
+                    dp[i][j] = 1 + Math.min(dp[i - 1][j - 1], Math.min(dp[i - 1][j], dp[i][j - 1]));
+            }
+        }
+        return dp[m][n];
+    }
+
+    public static void main(String[] args) {
+        System.out.println(minDistance("horse", "ros")); // Output: 3
+    }
+}
+```
 
 ## Greedy Algorithms
-### Activity Selection Problem
+#### Activity Selection Problem
+> 💡 Problem: Given n activities with start and end times, select the maximum number of activities that don’t overlap.
+> 🛠️ Approach: Sort activities by end time, pick the first one, then keep selecting the next non-overlapping activity.
 ```java
-public int maxActivities(int[][] intervals) {
-    Arrays.sort(intervals, (a, b) -> a[1] - b[1]);
-    int count = 1, end = intervals[0][1];
-    for (int i = 1; i < intervals.length; i++) {
-        if (intervals[i][0] >= end) {
-            count++;
-            end = intervals[i][1];
+import java.util.*;
+
+public class ActivitySelection {
+    static int maxActivities(int[] start, int[] end) {
+        int n = start.length;
+        int[][] activities = new int[n][2];
+        
+        for (int i = 0; i < n; i++) {
+            activities[i][0] = start[i];
+            activities[i][1] = end[i];
         }
+        
+        Arrays.sort(activities, Comparator.comparingInt(a -> a[1]));
+        
+        int count = 1, lastEnd = activities[0][1];
+        for (int i = 1; i < n; i++) {
+            if (activities[i][0] >= lastEnd) {
+                count++;
+                lastEnd = activities[i][1];
+            }
+        }
+        return count;
     }
-    return count;
+
+    public static void main(String[] args) {
+        int[] start = {1, 3, 2, 5};
+        int[] end = {2, 4, 3, 6};
+        System.out.println(maxActivities(start, end)); // Output: 2
+    }
 }
 ```
 
+#### Huffman Coding (Data Compression)
+> 💡 Problem: Given character frequencies, build an optimal prefix-free binary encoding tree.
+> 🛠️ Approach: Use a Min-Heap to iteratively merge two lowest-frequency nodes into one.
+```java
+import java.util.*;
+
+class HuffmanNode {
+    char ch;
+    int freq;
+    HuffmanNode left, right;
+    
+    HuffmanNode(char ch, int freq) {
+        this.ch = ch;
+        this.freq = freq;
+    }
+}
+
+class HuffmanComparator implements Comparator<HuffmanNode> {
+    public int compare(HuffmanNode a, HuffmanNode b) {
+        return a.freq - b.freq;
+    }
+}
+
+public class HuffmanCoding {
+    static void printCodes(HuffmanNode root, String code) {
+        if (root == null) return;
+        if (root.ch != '-') System.out.println(root.ch + ": " + code);
+        printCodes(root.left, code + "0");
+        printCodes(root.right, code + "1");
+    }
+
+    public static void main(String[] args) {
+        char[] chars = {'a', 'b', 'c', 'd'};
+        int[] freq = {5, 9, 12, 13};
+
+        PriorityQueue<HuffmanNode> pq = new PriorityQueue<>(new HuffmanComparator());
+        for (int i = 0; i < chars.length; i++) {
+            pq.add(new HuffmanNode(chars[i], freq[i]));
+        }
+
+        while (pq.size() > 1) {
+            HuffmanNode left = pq.poll();
+            HuffmanNode right = pq.poll();
+            HuffmanNode newNode = new HuffmanNode('-', left.freq + right.freq);
+            newNode.left = left;
+            newNode.right = right;
+            pq.add(newNode);
+        }
+        
+        printCodes(pq.poll(), "");
+    }
+}
+```
+
+#### Fractional Knapsack Problem
+> 💡 Problem: Given n items with weights and values, maximize profit by selecting fractions of items.
+> 🛠️ Approach: Sort items by value/weight, pick as much as possible greedily.
+```java
+import java.util.*;
+
+class Item {
+    int weight, value;
+    Item(int v, int w) { value = v; weight = w; }
+}
+
+public class FractionalKnapsack {
+    static double getMaxValue(Item[] items, int capacity) {
+        Arrays.sort(items, (a, b) -> Double.compare((double)b.value/b.weight, (double)a.value/a.weight));
+        double totalValue = 0.0;
+
+        for (Item item : items) {
+            if (capacity >= item.weight) {
+                totalValue += item.value;
+                capacity -= item.weight;
+            } else {
+                totalValue += (double)item.value / item.weight * capacity;
+                break;
+            }
+        }
+        return totalValue;
+    }
+
+    public static void main(String[] args) {
+        Item[] items = {new Item(60, 10), new Item(100, 20), new Item(120, 30)};
+        System.out.println(getMaxValue(items, 50)); // Output: 240.0
+    }
+}
+```
+
+#### Job Sequencing Problem
+> 💡 Problem: Given jobs with deadlines and profits, schedule them to maximize total profit.
+> 🛠️ Approach: Sort jobs by profit, use a greedy strategy to find the best available slot.
+```java
+import java.util.*;
+
+class Job {
+    int id, deadline, profit;
+    Job(int i, int d, int p) { id = i; deadline = d; profit = p; }
+}
+
+public class JobSequencing {
+    static int maxProfit(Job[] jobs) {
+        Arrays.sort(jobs, (a, b) -> b.profit - a.profit);
+        int n = jobs.length, totalProfit = 0;
+        boolean[] slots = new boolean[n];
+
+        for (Job job : jobs) {
+            for (int j = Math.min(n, job.deadline) - 1; j >= 0; j--) {
+                if (!slots[j]) {
+                    slots[j] = true;
+                    totalProfit += job.profit;
+                    break;
+                }
+            }
+        }
+        return totalProfit;
+    }
+
+    public static void main(String[] args) {
+        Job[] jobs = {new Job(1, 2, 100), new Job(2, 1, 50), new Job(3, 2, 10)};
+        System.out.println(maxProfit(jobs)); // Output: 150
+    }
+}
+```
+
+#### Minimum Spanning Tree (Prim’s Algorithm)
+> 💡 Problem: Find the minimum spanning tree (MST) for a given weighted graph.
+> 🛠️ Approach: Use a Priority Queue (Min-Heap) to greedily select edges with the least weight.
+```java
+import java.util.*;
+
+class Edge implements Comparable<Edge> {
+    int dest, weight;
+    Edge(int d, int w) { dest = d; weight = w; }
+    public int compareTo(Edge e) { return this.weight - e.weight; }
+}
+
+public class PrimsAlgorithm {
+    static int primMST(int[][] graph) {
+        int V = graph.length, cost = 0;
+        boolean[] visited = new boolean[V];
+        PriorityQueue<Edge> pq = new PriorityQueue<>();
+
+        pq.add(new Edge(0, 0));
+        while (!pq.isEmpty()) {
+            Edge edge = pq.poll();
+            if (visited[edge.dest]) continue;
+            visited[edge.dest] = true;
+            cost += edge.weight;
+
+            for (int i = 0; i < V; i++) {
+                if (!visited[i] && graph[edge.dest][i] != 0) {
+                    pq.add(new Edge(i, graph[edge.dest][i]));
+                }
+            }
+        }
+        return cost;
+    }
+
+    public static void main(String[] args) {
+        int[][] graph = {
+            {0, 2, 0, 6, 0},
+            {2, 0, 3, 8, 5},
+            {0, 3, 0, 0, 7},
+            {6, 8, 0, 0, 9},
+            {0, 5, 7, 9, 0}
+        };
+        System.out.println(primMST(graph)); // Output: Minimum cost of MST
+    }
+}
+```
 
 ## Bit Manipulation
 - **AND (&):** Sets a bit to 1 if both bits are 1.
@@ -1720,14 +2378,14 @@ public int maxActivities(int[][] intervals) {
 
 - **Right Shift (>>):** Shifts bits to the right, filling with the sign bit.
 
-### Check if a Number is a Power of Two
+#### Check if a Number is a Power of Two
 ```java
 public boolean isPowerOfTwo(int n) {
     return n > 0 && (n & (n - 1)) == 0;
 }
 ```
 
-### Count the Number of Set Bits (Hamming Weight)
+#### Count the Number of Set Bits (Hamming Weight)
 ```java
 public int countSetBits(int n) {
     int count = 0;
@@ -1739,7 +2397,7 @@ public int countSetBits(int n) {
 }
 ```
 
-### Find the Missing Number
+#### Find the Missing Number
 > **Problem Statement:** Given an array containing n distinct numbers taken from 0, 1, 2, ..., n, find the missing number.
 ```java
 public int missingNumber(int[] nums) {
@@ -1751,7 +2409,7 @@ public int missingNumber(int[] nums) {
 }
 ```
 
-### Single Number
+#### Single Number
 > **Problem Statement:** Given a non-empty array of integers where every element appears twice except for one, find that single one.
 ```java
 public int singleNumber(int[] nums) {
