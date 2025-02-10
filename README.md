@@ -916,7 +916,354 @@ class MyStack {
 }
 ```
 
-## RECURSION and BACKTRACKING
+#### Sliding Window Maximum
+> Problem: Find the maximum in every sliding window of size k.
+> Approach: Use a Deque (monotonic decreasing) to keep track of max elements.
+```java
+public int[] maxSlidingWindow(int[] nums, int k) {
+    int[] res = new int[nums.length - k + 1];
+    Deque<Integer> dq = new LinkedList<>();
+    for (int i = 0; i < nums.length; i++) {
+        if (!dq.isEmpty() && dq.peek() < i - k + 1) dq.poll();
+        while (!dq.isEmpty() && nums[dq.peekLast()] < nums[i]) dq.pollLast();
+        dq.offer(i);
+        if (i >= k - 1) res[i - k + 1] = nums[dq.peek()];
+    }
+    return res;
+}
+```
+
+#### First Unique Character in a String
+> Problem: Find the first non-repeating character in a string.
+> Approach: Use a queue to track characters and remove repeated ones.
+```java
+public char firstUniqChar(String s) {
+    int[] count = new int[26];
+    Queue<Character> q = new LinkedList<>();
+    for (char c : s.toCharArray()) {
+        count[c - 'a']++;
+        q.offer(c);
+        while (!q.isEmpty() && count[q.peek() - 'a'] > 1) q.poll();
+    }
+    return q.isEmpty() ? '#' : q.peek();
+}
+```
+
+#### Rotten Oranges (Shortest Path in Grid)
+> Problem: Find the minimum time to rot all oranges in a grid.
+> Approach: Use BFS (multi-source) starting from rotten oranges.
+```java
+public int orangesRotting(int[][] grid) {
+    int fresh = 0, time = 0;
+    Queue<int[]> q = new LinkedList<>();
+    int[][] dirs = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+
+    for (int i = 0; i < grid.length; i++) {
+        for (int j = 0; j < grid[0].length; j++) {
+            if (grid[i][j] == 2) q.offer(new int[]{i, j});
+            else if (grid[i][j] == 1) fresh++;
+        }
+    }
+
+    while (!q.isEmpty() && fresh > 0) {
+        int size = q.size();
+        for (int i = 0; i < size; i++) {
+            int[] pos = q.poll();
+            for (int[] d : dirs) {
+                int x = pos[0] + d[0], y = pos[1] + d[1];
+                if (x >= 0 && y >= 0 && x < grid.length && y < grid[0].length && grid[x][y] == 1) {
+                    grid[x][y] = 2;
+                    q.offer(new int[]{x, y});
+                    fresh--;
+                }
+            }
+        }
+        time++;
+    }
+
+    return fresh == 0 ? time : -1;
+}
+```
+
+#### Number of Islands
+> Problem: Count the number of islands in a grid (1s are land).
+>Approach: Use BFS (or DFS) to traverse and mark connected components.
+```java
+public int numIslands(char[][] grid) {
+    int count = 0;
+    for (int i = 0; i < grid.length; i++) {
+        for (int j = 0; j < grid[0].length; j++) {
+            if (grid[i][j] == '1') {
+                bfs(grid, i, j);
+                count++;
+            }
+        }
+    }
+    return count;
+}
+
+private void bfs(char[][] grid, int i, int j) {
+    Queue<int[]> q = new LinkedList<>();
+    q.offer(new int[]{i, j});
+    grid[i][j] = '0';
+    int[][] dirs = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+
+    while (!q.isEmpty()) {
+        int[] pos = q.poll();
+        for (int[] d : dirs) {
+            int x = pos[0] + d[0], y = pos[1] + d[1];
+            if (x >= 0 && y >= 0 && x < grid.length && y < grid[0].length && grid[x][y] == '1') {
+                grid[x][y] = '0';
+                q.offer(new int[]{x, y});
+            }
+        }
+    }
+}
+```
+
+#### LRU Cache (Least Recently Used Cache)
+> Problem: Design an LRU cache that evicts the least recently used item.
+> Approach: Use HashMap + Doubly LinkedList for O(1) operations.
+```java
+class LRUCache {
+    class Node {
+        int key, value;
+        Node prev, next;
+        Node(int k, int v) { key = k; value = v; }
+    }
+
+    private final int capacity;
+    private final Map<Integer, Node> map;
+    private final Node head, tail;
+
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        map = new HashMap<>();
+        head = new Node(0, 0);
+        tail = new Node(0, 0);
+        head.next = tail;
+        tail.prev = head;
+    }
+
+    public int get(int key) {
+        if (!map.containsKey(key)) return -1;
+        Node node = map.get(key);
+        remove(node);
+        insert(node);
+        return node.value;
+    }
+
+    public void put(int key, int value) {
+        if (map.containsKey(key)) remove(map.get(key));
+        if (map.size() == capacity) remove(tail.prev);
+        insert(new Node(key, value));
+    }
+
+    private void remove(Node node) {
+        map.remove(node.key);
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+
+    private void insert(Node node) {
+        map.put(node.key, node);
+        node.next = head.next;
+        node.prev = head;
+        head.next.prev = node;
+        head.next = node;
+    }
+}
+```
+
+
+
+
+## RECURSION 
+#### Factorial of a Number
+> Problem: Compute the factorial of n.
+> Approach: Use recursion, fact(n) = n * fact(n - 1).
+```java
+public int factorial(int n) {
+    return (n == 0 || n == 1) ? 1 : n * factorial(n - 1);
+}
+```
+
+#### Fibonacci Series
+> Problem: Find the nth Fibonacci number.
+> Approach: Use recursion, fib(n) = fib(n-1) + fib(n-2), optimized with memoization.
+```java
+public int fibonacci(int n, Map<Integer, Integer> memo) {
+    if (n <= 1) return n;
+    if (!memo.containsKey(n)) memo.put(n, fibonacci(n - 1, memo) + fibonacci(n - 2, memo));
+    return memo.get(n);
+}
+```
+
+#### Print All Subsequences of an Array
+> Problem: Print all subsequences (power set).
+> Approach: Recursively include/exclude each element.
+```java
+public void printSubsequences(int[] arr, int index, List<Integer> path) {
+    if (index == arr.length) {
+        System.out.println(path);
+        return;
+    }
+    path.add(arr[index]);
+    printSubsequences(arr, index + 1, path);
+    path.remove(path.size() - 1);
+    printSubsequences(arr, index + 1, path);
+}
+```
+
+#### Subset Sum
+> Problem: Find all subsets that sum to a target value.
+> Approach: Recursively include/exclude numbers and track the sum.
+```java
+public void subsetSum(int[] nums, int index, int sum, int target, List<Integer> path) {
+    if (sum == target) System.out.println(path);
+    if (index == nums.length) return;
+    path.add(nums[index]);
+    subsetSum(nums, index + 1, sum + nums[index], target, path);
+    path.remove(path.size() - 1);
+    subsetSum(nums, index + 1, sum, target, path);
+}
+```
+
+#### Tower of Hanoi
+> Problem: Move n disks from source to destination using an auxiliary peg.
+> Approach:
+  - 1. Move n-1 disks from source to auxiliary.
+  - 2. Move the nth disk from source to destination.
+  - 3. Move n-1 disks from auxiliary to destination.
+  - 📈 Time Complexity: O(2^N)
+```java
+public class TowerOfHanoi {
+    public static void solveHanoi(int n, char source, char auxiliary, char destination) {
+        if (n == 1) {
+            System.out.println("Move disk 1 from " + source + " to " + destination);
+            return;
+        }
+        solveHanoi(n - 1, source, destination, auxiliary);
+        System.out.println("Move disk " + n + " from " + source + " to " + destination);
+        solveHanoi(n - 1, auxiliary, source, destination);
+    }
+
+    public static void main(String[] args) {
+        solveHanoi(3, 'A', 'B', 'C');
+    }
+}
+```
+
+#### Reverse a String using Recursion
+```java
+public String reverseString(String s) {
+    if (s.isEmpty()) return s;
+    return reverseString(s.substring(1)) + s.charAt(0);
+}
+```
+
+#### Generate All Permutations of a String
+> Problem: Print all permutations of a given string.
+> Approach: Swap characters and recurse.
+```java
+public void permute(char[] str, int left) {
+    if (left == str.length) System.out.println(new String(str));
+    for (int i = left; i < str.length; i++) {
+        swap(str, left, i);
+        permute(str, left + 1);
+        swap(str, left, i);
+    }
+}
+private void swap(char[] arr, int i, int j) {
+   char temp = arr[i];
+   arr[i] = arr[j];
+   arr[j] = temp;
+}
+```
+
+#### N-Queens Problem
+> Problem: Place N queens on an N×N chessboard such that no two queens attack each other.
+> Approach: Use backtracking and check row, column, diagonal conflicts.
+```java
+public void solveNQueens(int n) {
+    char[][] board = new char[n][n];
+    for (char[] row : board) Arrays.fill(row, '.');
+    placeQueens(board, 0);
+}
+private void placeQueens(char[][] board, int row) {
+    if (row == board.length) { printBoard(board); return; }
+    for (int col = 0; col < board.length; col++) {
+        if (isValid(board, row, col)) {
+            board[row][col] = 'Q';
+            placeQueens(board, row + 1);
+            board[row][col] = '.';
+        }
+    }
+}
+private boolean isValid(char[][] board, int r, int c) {
+    for (int i = 0; i < r; i++) if (board[i][c] == 'Q') return false;
+    for (int i = r, j = c; i >= 0 && j >= 0; i--, j--) if (board[i][j] == 'Q') return false;
+    for (int i = r, j = c; i >= 0 && j < board.length; i--, j++) if (board[i][j] == 'Q') return false;
+    return true;
+}
+private void printBoard(char[][] board) {
+    for (char[] row : board) System.out.println(new String(row));
+    System.out.println();
+}
+```
+
+#### Word Search (Backtracking)
+> Problem: Check if a word exists in a grid.
+> Approach: Use DFS + Backtracking.
+```java
+public boolean exist(char[][] board, String word) {
+    for (int i = 0; i < board.length; i++)
+        for (int j = 0; j < board[0].length; j++)
+            if (dfs(board, i, j, word, 0)) return true;
+    return false;
+}
+private boolean dfs(char[][] board, int i, int j, String word, int index) {
+    if (index == word.length()) return true;
+    if (i < 0 || j < 0 || i >= board.length || j >= board[0].length || board[i][j] != word.charAt(index)) return false;
+    char temp = board[i][j];
+    board[i][j] = '#';
+    boolean found = dfs(board, i + 1, j, word, index + 1) ||
+                    dfs(board, i - 1, j, word, index + 1) ||
+                    dfs(board, i, j + 1, word, index + 1) ||
+                    dfs(board, i, j - 1, word, index + 1);
+    board[i][j] = temp;
+    return found;
+}
+```
+
+#### Sudoku Solver
+> Problem: Solve a given Sudoku puzzle.
+> Approach: Use backtracking to try placing numbers 1-9.
+```java
+public boolean solveSudoku(char[][] board) {
+    for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            if (board[i][j] == '.') {
+                for (char num = '1'; num <= '9'; num++) {
+                    if (isValid(board, i, j, num)) {
+                        board[i][j] = num;
+                        if (solveSudoku(board)) return true;
+                        board[i][j] = '.';
+                    }
+                }
+                return false;
+            }
+        }
+    }
+    return true;
+}
+private boolean isValid(char[][] board, int r, int c, char num) {
+    for (int i = 0; i < 9; i++) 
+        if (board[i][c] == num || board[r][i] == num || board[3 * (r / 3) + i / 3][3 * (c / 3) + i % 3] == num) return false;
+    return true;
+}
+```
+
 ### Generate All Subsets (Power Set)
 ```java
 public void subsets(int[] nums, int index, List<Integer> current, List<List<Integer>> result) {
@@ -967,6 +1314,101 @@ public void subsets(int[] nums, int index, List<Integer> current, List<List<Inte
     }
 ```
 
+
+## BACKTRACKING
+#### Permutations of a String/Array
+> Approach: Swap elements, recurse, then backtrack
+```java
+public void permute(char[] str, int left) {
+    if (left == str.length) System.out.println(new String(str));
+    for (int i = left; i < str.length; i++) {
+        swap(str, left, i);
+        permute(str, left + 1);
+        swap(str, left, i);
+    }
+}
+private void swap(char[] arr, int i, int j) {
+   char temp = arr[i];
+   arr[i] = arr[j];
+   arr[j] = temp;
+}
+```
+
+#### Combination Sum
+> Problem: Find all unique combinations that sum up to target.
+> Approach: Include the same element multiple times.
+```java
+public void combinationSum(int[] candidates, int index, int target, List<Integer> path) {
+    if (target == 0) { System.out.println(path); return; }
+    if (target < 0 || index == candidates.length) return;
+    path.add(candidates[index]);
+    combinationSum(candidates, index, target - candidates[index], path);
+    path.remove(path.size() - 1);
+    combinationSum(candidates, index + 1, target, path);
+}
+```
+
+### N-Queens Problem
+```java
+   public boolean solveNQueens(int[][] board, int row) {
+        if (row >= board.length) return true;
+        for (int i = 0; i < board.length; i++) {
+            if (isSafe(board, row, i)) {
+                board[row][i] = 1;
+                if (solveNQueens(board, row + 1)) return true;
+                board[row][i] = 0;
+            }
+        }
+        return false;
+    }
+
+    private boolean isSafe(int[][] board, int row, int col) {
+        int n = board.length;
+        
+        // Check column
+        for (int i = 0; i < row; i++) {
+            if (board[i][col] == 1) return false;
+        }
+
+        // Check upper-left diagonal
+        for (int i = row, j = col; i >= 0 && j >= 0; i--, j--) {
+            if (board[i][j] == 1) return false;
+        }
+
+        // Check upper-right diagonal
+        for (int i = row, j = col; i >= 0 && j < n; i--, j++) {
+            if (board[i][j] == 1) return false;
+        }
+
+        return true;
+    }
+```
+
+#### Rat in a Maze
+> Problem: Find a path for the rat from the top-left to the bottom-right of a maze, moving only right or down through open cells (1s).
+> Approach: Recursively explore right and down moves, marking the path in the solution matrix; if a move leads to a dead end, backtrack by resetting the cell.
+```java
+public boolean solveMaze(int[][] maze, int x, int y, int[][] solution) {
+    if (x == maze.length - 1 && y == maze.length - 1) { solution[x][y] = 1; return true; }
+    if (x >= 0 && y >= 0 && x < maze.length && y < maze.length && maze[x][y] == 1) {
+        solution[x][y] = 1;
+        if (solveMaze(maze, x + 1, y, solution) || solveMaze(maze, x, y + 1, solution)) return true;
+        solution[x][y] = 0;
+    }
+    return false;
+}
+```
+
+#### Generate Balanced Parentheses
+> Problem: Generate all valid combinations of n pairs of parentheses.
+> Approach: Use recursion to add ( if open brackets remain and ) if it keeps the sequence valid, backtracking as needed.
+```java
+public void generateParentheses(int open, int close, String path) {
+    if (open == 0 && close == 0) { System.out.println(path); return; }
+    if (open > 0) generateParentheses(open - 1, close, path + "(");
+    if (close > open) generateParentheses(open, close - 1, path + ")");
+}
+```
 
 ## SEARCHING and SORTING
 ### Binary Search
