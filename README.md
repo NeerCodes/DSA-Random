@@ -1,5 +1,5 @@
 # DSA-Random
-Random DSA Patterns for revision.
+Random DSA Patterns (Algorithms and important problems) for revision.
 
 ## ARRAYS
 #### Maximum Subarray (Kadane's Algorithm)
@@ -404,7 +404,7 @@ public ListNode detectCycle(ListNode head) {
 }
 ```
 
-### Merge Two Sorted Linked Lists
+#### Merge Two Sorted Linked Lists
 > Problem: Merge two sorted linked lists into one sorted list.
 
 > Approach: Use a dummy node and iterate through both lists, connecting nodes in sorted order.
@@ -428,7 +428,7 @@ public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
 }
 ```
 
-### Merge K Sorted Lists
+#### Merge K Sorted Lists
 > compare every 2 lists, call 'merge2sortedLists' function, and keep doing until we have a bigger list.
 
 > Merge Two Lists at a Time (Divide & Conquer) - O(N log K)
@@ -1326,7 +1326,7 @@ public void subsets(int[] nums, int index, List<Integer> current, List<List<Inte
 }
 ```
 
-### N-Queens Problem
+#### N-Queens Problem
 ```java
    public boolean solveNQueens(int[][] board, int row) {
         if (row >= board.length) return true;
@@ -1397,7 +1397,7 @@ public void combinationSum(int[] candidates, int index, int target, List<Integer
 }
 ```
 
-### N-Queens Problem
+#### N-Queens Problem
 ```java
    public boolean solveNQueens(int[][] board, int row) {
         if (row >= board.length) return true;
@@ -1463,7 +1463,7 @@ public void generateParentheses(int open, int close, String path) {
 
 ## SEARCHING and SORTING
 ## Searching
-### Binary Search
+#### Binary Search
 > 💡 Problem: Find an element in a sorted array in O(log N) time.
 
 > 🛠️ Approach: Repeatedly divide the search range in half until the target is found.
@@ -1592,7 +1592,7 @@ public void insertionSort(int[] arr) {
 }
 ```
 
-### Quick Sort (O(n log n) Average, O(n²) Worst)
+#### Quick Sort (O(n log n) Average, O(n²) Worst)
 > 💡 Problem: Sort an array using a pivot-based partitioning method.
 
 > 🛠️ Approach: Select a pivot, partition elements, and recursively sort partitions.
@@ -1623,7 +1623,7 @@ public int partition(int[] arr, int low, int high) {
 }
 ```
 
-### Merge Sort (O(n log n))
+#### Merge Sort (O(n log n))
 > 💡 Problem: Sort an array using the divide-and-conquer technique.
 
 > 🛠️ Approach: Recursively divide the array and merge sorted subarrays.
@@ -1688,7 +1688,7 @@ private void merge(int[] arr, int left, int mid, int right) {
 
 ## Graph Algorithms
 ### Traversal Algorithms
-### Breadth-First Search (BFS)
+#### Breadth-First Search (BFS)
 > 💡 Problem: Traverse all nodes in a graph using BFS.
 
 > 🛠️ Approach: Use a queue to explore nodes level by level.
@@ -1711,7 +1711,7 @@ public void bfs(int start, List<List<Integer>> graph) {
 }
 ```
 
-### Depth-First Search (DFS)
+#### Depth-First Search (DFS)
 > 💡 Problem: Traverse all nodes in a graph using DFS.
 > 🛠️ Approach: Recursively visit nodes, marking them as visited.
 ```java
