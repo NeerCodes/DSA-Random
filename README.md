@@ -369,13 +369,16 @@ boolean hasCycle(ListNode head) {
 ```java
 public ListNode reverseList(ListNode head) {
     ListNode prev = null;
-    while (head != null) {
-        ListNode nextNode = head.next;
-        head.next = prev;
-        prev = head;
-        head = nextNode;
+    ListNode current = head;
+    
+    while (current != null) {
+        ListNode next = current.next; // Store next node
+        current.next = prev;          // Reverse the link
+        prev = current;               // Move prev forward
+        current = next;               // Move current forward
     }
-    return prev;
+    
+    return prev; // New head of the reversed list
 }
 ```
 
