@@ -389,7 +389,7 @@ public ListNode reverseList(ListNode head) {
 
 > T = O(N)
 ```java
-public ListNode detectCycle(ListNode head) {
+public ListNode findCycleStart(ListNode head) {
     ListNode slow = head, fast = head;
     while (fast != null && fast.next != null) {
         slow = slow.next;
