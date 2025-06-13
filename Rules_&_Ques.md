@@ -476,6 +476,223 @@ public static ListNode getIntersectionOptimized(ListNode headA, ListNode headB) 
 
  ---
 
+ ## 📚 Stacks and Queues
+
+### 🔹 16. Implement a Stack Using an Array
+
+#### 🧪 Brute Force
+```java
+class Stack {
+    int[] arr = new int[1000];
+    int top = -1;
+
+    void push(int x) {
+        if (top < arr.length - 1) arr[++top] = x;
+    }
+
+    int pop() {
+        return top >= 0 ? arr[top--] : -1;
+    }
+
+    int peek() {
+        return top >= 0 ? arr[top] : -1;
+    }
+}
+```
+
+#### ⚡ Optimized
+```java
+class Stack {
+    ArrayList<Integer> list = new ArrayList<>();
+
+    void push(int x) {
+        list.add(x);
+    }
+
+    int pop() {
+        return list.isEmpty() ? -1 : list.remove(list.size() - 1);
+    }
+
+    int peek() {
+        return list.isEmpty() ? -1 : list.get(list.size() - 1);
+    }
+}
+```
+
+### 🔹 17. Stack with getMin
+
+#### 🧪 Brute Force
+```java
+class MinStack {
+    Stack<Integer> stack = new Stack<>();
+
+    void push(int x) {
+        stack.push(x);
+    }
+
+    void pop() {
+        stack.pop();
+    }
+
+    int top() {
+        return stack.peek();
+    }
+
+    int getMin() {
+        int min = Integer.MAX_VALUE;
+        for (int num : stack) min = Math.min(min, num);
+        return min;
+    }
+}
+```
+
+#### ⚡ Optimized (With extra stack)
+```java
+class MinStack {
+    Stack<Integer> stack = new Stack<>();
+    Stack<Integer> minStack = new Stack<>();
+
+    void push(int x) {
+        stack.push(x);
+        if (minStack.isEmpty() || x <= minStack.peek()) minStack.push(x);
+    }
+
+    void pop() {
+        if (stack.pop().equals(minStack.peek())) minStack.pop();
+    }
+
+    int top() {
+        return stack.peek();
+    }
+
+    int getMin() {
+        return minStack.peek();
+    }
+}
+```
+
+### 🔹 18. Circular Queue
+
+#### 🧪 Brute Force (Also optimal)
+```java
+class CircularQueue {
+    int[] arr;
+    int size, front = -1, rear = -1;
+
+    CircularQueue(int k) {
+        arr = new int[k];
+        size = k;
+    }
+
+    boolean enqueue(int val) {
+        if ((rear + 1) % size == front) return false;
+        if (front == -1) front = 0;
+        rear = (rear + 1) % size;
+        arr[rear] = val;
+        return true;
+    }
+
+    boolean dequeue() {
+        if (front == -1) return false;
+        if (front == rear) front = rear = -1;
+        else front = (front + 1) % size;
+        return true;
+    }
+}
+```
+
+### 🔹 19. Max Stack
+
+#### 🧪 Brute Force
+```java
+class MaxStack {
+    Stack<Integer> stack = new Stack<>();
+
+    void push(int x) {
+        stack.push(x);
+    }
+
+    int pop() {
+        return stack.pop();
+    }
+
+    int top() {
+        return stack.peek();
+    }
+
+    int getMax() {
+        int max = Integer.MIN_VALUE;
+        for (int num : stack) max = Math.max(max, num);
+        return max;
+    }
+}
+```
+
+#### ⚡ Optimized
+```java
+class MaxStack {
+    Stack<Integer> stack = new Stack<>();
+    Stack<Integer> maxStack = new Stack<>();
+
+    void push(int x) {
+        stack.push(x);
+        if (maxStack.isEmpty() || x >= maxStack.peek()) maxStack.push(x);
+    }
+
+    int pop() {
+        if (stack.peek().equals(maxStack.peek())) maxStack.pop();
+        return stack.pop();
+    }
+
+    int top() {
+        return stack.peek();
+    }
+
+    int getMax() {
+        return maxStack.peek();
+    }
+}
+```
+
+### 🔹 20. Queue Using Stacks
+
+#### 🧪 Brute Force
+```java
+class MyQueue {
+    Stack<Integer> input = new Stack<>();
+
+    void push(int x) {
+        input.push(x);
+    }
+
+    int pop() {
+        Stack<Integer> temp = new Stack<>();
+        while (!input.isEmpty()) temp.push(input.pop());
+        int res = temp.pop();
+        while (!temp.isEmpty()) input.push(temp.pop());
+        return res;
+    }
+}
+```
+
+#### ⚡ Optimized (Two stacks)
+```java
+class MyQueue {
+    Stack<Integer> input = new Stack<>();
+    Stack<Integer> output = new Stack<>();
+
+    void push(int x) {
+        input.push(x);
+    }
+
+    int pop() {
+        if (output.isEmpty()) while (!input.isEmpty()) output.push(input.pop());
+        return output.pop();
+    }
+}
+```
+
+
 ## 📚 Stacks and Queues
 16. Implement a stack using an array.  
 17. Implement a stack that supports push, pop, top, and retrieving the minimum element.  
