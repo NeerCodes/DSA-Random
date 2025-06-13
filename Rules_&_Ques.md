@@ -693,6 +693,332 @@ class MyQueue {
 ```
 
 
+## 🌲 Trees and BSTs
+
+### 21. Find the Height of a Binary Tree
+
+#### 🧪 Brute Force
+```java
+public int height(TreeNode root) {
+    if (root == null) return 0;
+    return 1 + Math.max(height(root.left), height(root.right));
+}
+```
+- Recursively finds the height of left and right subtrees.
+
+#### ⚡ Optimized
+(Same as brute force. This is the optimal recursive approach.)
+
+---
+
+### 22. Find the Lowest Common Ancestor (LCA) in Binary Tree
+
+#### 🧪 Brute Force
+```java
+public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    if (root == null || root == p || root == q) return root;
+    TreeNode left = lowestCommonAncestor(root.left, p, q);
+    TreeNode right = lowestCommonAncestor(root.right, p, q);
+    if (left != null && right != null) return root;
+    return left != null ? left : right;
+}
+```
+- Recursive solution checking both left and right subtrees.
+
+#### ⚡ Optimized
+(Same as brute force. It is optimal for general binary trees.)
+
+---
+
+### 23. Validate Binary Search Tree
+
+#### 🧪 Brute Force (In-order traversal, check sorted list)
+```java
+List<Integer> vals = new ArrayList<>();
+public void inorder(TreeNode node) {
+    if (node == null) return;
+    inorder(node.left);
+    vals.add(node.val);
+    inorder(node.right);
+}
+
+public boolean isValidBST(TreeNode root) {
+    inorder(root);
+    for (int i = 1; i < vals.size(); i++) {
+        if (vals.get(i) <= vals.get(i - 1)) return false;
+    }
+    return true;
+}
+```
+
+#### ⚡ Optimized (Check valid range)
+```java
+public boolean isValidBST(TreeNode root) {
+    return validate(root, Long.MIN_VALUE, Long.MAX_VALUE);
+}
+
+public boolean validate(TreeNode node, long min, long max) {
+    if (node == null) return true;
+    if (node.val <= min || node.val >= max) return false;
+    return validate(node.left, min, node.val) && validate(node.right, node.val, max);
+}
+```
+
+---
+
+### 24. Serialize and Deserialize Binary Tree
+
+#### ⚡ Optimal (Using Preorder and Null Marker)
+```java
+public class Codec {
+    public String serialize(TreeNode root) {
+        if (root == null) return "X,";
+        return root.val + "," + serialize(root.left) + serialize(root.right);
+    }
+
+    public TreeNode deserialize(String data) {
+        Queue<String> nodes = new LinkedList<>(Arrays.asList(data.split(",")));
+        return build(nodes);
+    }
+
+    private TreeNode build(Queue<String> nodes) {
+        String val = nodes.poll();
+        if (val.equals("X")) return null;
+        TreeNode node = new TreeNode(Integer.parseInt(val));
+        node.left = build(nodes);
+        node.right = build(nodes);
+        return node;
+    }
+}
+```
+- No brute force applicable.
+
+---
+
+### 25. Inorder Traversal of Binary Tree
+
+#### 🧪 Brute Force (Recursive)
+```java
+public void inorder(TreeNode root) {
+    if (root != null) {
+        inorder(root.left);
+        System.out.print(root.val + " ");
+        inorder(root.right);
+    }
+}
+```
+
+#### ⚡ Optimized (Iterative using Stack)
+```java
+public List<Integer> inorderTraversal(TreeNode root) {
+    List<Integer> res = new ArrayList<>();
+    Stack<TreeNode> stack = new Stack<>();
+    TreeNode curr = root;
+    while (curr != null || !stack.isEmpty()) {
+        while (curr != null) {
+            stack.push(curr);
+            curr = curr.left;
+        }
+        curr = stack.pop();
+        res.add(curr.val);
+        curr = curr.right;
+    }
+    return res;
+}
+```
+
+---
+
+### 26. Diameter of Binary Tree
+
+#### ⚡ Optimized
+```java
+int max = 0;
+public int diameterOfBinaryTree(TreeNode root) {
+    height(root);
+    return max;
+}
+
+private int height(TreeNode node) {
+    if (node == null) return 0;
+    int left = height(node.left);
+    int right = height(node.right);
+    max = Math.max(max, left + right);
+    return 1 + Math.max(left, right);
+}
+```
+
+---
+
+### 27. Mirror of Binary Tree
+
+#### 🧪 Brute Force / ⚡ Optimal (Recursive)
+```java
+public TreeNode mirrorTree(TreeNode root) {
+    if (root == null) return null;
+    TreeNode left = mirrorTree(root.left);
+    TreeNode right = mirrorTree(root.right);
+    root.left = right;
+    root.right = left;
+    return root;
+}
+```
+
+---
+
+## 🔗 Graphs
+
+### 28. Depth-First Search (DFS)
+
+```java
+public void dfs(int node, boolean[] visited, List<List<Integer>> adj) {
+    visited[node] = true;
+    for (int neighbor : adj.get(node)) {
+        if (!visited[neighbor]) {
+            dfs(neighbor, visited, adj);
+        }
+    }
+}
+```
+
+---
+
+### 29. Breadth-First Search (BFS)
+
+```java
+public void bfs(int start, List<List<Integer>> adj) {
+    boolean[] visited = new boolean[adj.size()];
+    Queue<Integer> queue = new LinkedList<>();
+    queue.offer(start);
+    visited[start] = true;
+
+    while (!queue.isEmpty()) {
+        int node = queue.poll();
+        for (int neighbor : adj.get(node)) {
+            if (!visited[neighbor]) {
+                visited[neighbor] = true;
+                queue.offer(neighbor);
+            }
+        }
+    }
+}
+```
+
+---
+
+### 30. Shortest Path (Unweighted Graph - BFS)
+
+```java
+public int[] shortestPath(int start, List<List<Integer>> adj) {
+    int[] dist = new int[adj.size()];
+    Arrays.fill(dist, -1);
+    Queue<Integer> q = new LinkedList<>();
+    q.offer(start);
+    dist[start] = 0;
+
+    while (!q.isEmpty()) {
+        int node = q.poll();
+        for (int neighbor : adj.get(node)) {
+            if (dist[neighbor] == -1) {
+                dist[neighbor] = dist[node] + 1;
+                q.offer(neighbor);
+            }
+        }
+    }
+    return dist;
+}
+```
+
+---
+
+### 31. Cycle Detection in Undirected Graph (DFS)
+
+```java
+public boolean hasCycle(int node, int parent, boolean[] visited, List<List<Integer>> adj) {
+    visited[node] = true;
+    for (int neighbor : adj.get(node)) {
+        if (!visited[neighbor]) {
+            if (hasCycle(neighbor, node, visited, adj)) return true;
+        } else if (neighbor != parent) return true;
+    }
+    return false;
+}
+```
+
+---
+
+### 32. Check if Graph is Bipartite
+
+```java
+public boolean isBipartite(int[][] graph) {
+    int[] color = new int[graph.length];
+    Arrays.fill(color, -1);
+    for (int i = 0; i < graph.length; i++) {
+        if (color[i] == -1 && !dfsColor(i, 0, color, graph)) return false;
+    }
+    return true;
+}
+
+private boolean dfsColor(int node, int c, int[] color, int[][] graph) {
+    color[node] = c;
+    for (int neighbor : graph[node]) {
+        if (color[neighbor] == -1) {
+            if (!dfsColor(neighbor, 1 - c, color, graph)) return false;
+        } else if (color[neighbor] == c) return false;
+    }
+    return true;
+}
+```
+
+---
+
+### 33. Number of Connected Components (DFS)
+
+```java
+public int countComponents(int n, int[][] edges) {
+    List<List<Integer>> adj = new ArrayList<>();
+    for (int i = 0; i < n; i++) adj.add(new ArrayList<>());
+    for (int[] edge : edges) {
+        adj.get(edge[0]).add(edge[1]);
+        adj.get(edge[1]).add(edge[0]);
+    }
+
+    boolean[] visited = new boolean[n];
+    int count = 0;
+    for (int i = 0; i < n; i++) {
+        if (!visited[i]) {
+            dfs(i, visited, adj);
+            count++;
+        }
+    }
+    return count;
+}
+```
+
+---
+
+### 34. Find Bridges in a Graph
+
+```java
+int time = 0;
+List<List<Integer>> bridges = new ArrayList<>();
+
+public void dfs(int u, int parent, int[] disc, int[] low, List<List<Integer>> adj) {
+    disc[u] = low[u] = ++time;
+    for (int v : adj.get(u)) {
+        if (v == parent) continue;
+        if (disc[v] == 0) {
+            dfs(v, u, disc, low, adj);
+            low[u] = Math.min(low[u], low[v]);
+            if (low[v] > disc[u]) bridges.add(Arrays.asList(u, v));
+        } else {
+            low[u] = Math.min(low[u], disc[v]);
+        }
+    }
+}
+```
+
+
 ## 📚 Stacks and Queues
 16. Implement a stack using an array.  
 17. Implement a stack that supports push, pop, top, and retrieving the minimum element.  
