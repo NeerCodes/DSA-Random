@@ -3,6 +3,63 @@
 
 > ✅ First **solve** the question. Then **note down** the answer. After **3 days**, recall the question from the answer and **solve again**.  
 > Follow **3-7-15 spaced repetition** for mastery.
+> If your array is sorted
+→ Try binary search or use two pointers to solve it faster.
+
+> If your array isn’t sorted and you need to find a pattern
+→ First, ask: Do I need the biggest, smallest, or just to check if something exists?
+
+/-----
+
+> If you have to find the max or min in every small part of an array
+→ Sliding window or a hash map can help a lot.
+
+If your code is running too slow
+→ See if you can use prefix sums or prepare your data in a smart way before you start.
+
+/-----
+
+> If you get stuck on graph problems
+→ Find out if you need shortest path, find a cycle, or count groups.
+
+> If it’s shortest path
+→ Use BFS if there are no weights, Dijkstra if there are.
+
+> If it’s counting islands or friend circles
+→ Try DFS, BFS, or Union-Find.
+
+/-----
+
+> If you get a tree problem about depth or balance
+→ Use recursion or DFS.
+
+> If you see “lowest common ancestor”
+→ Usually you need to move up and down using parent pointers or recursion.
+
+/-----
+
+> If your linked list question is about reversing or finding cycles
+→ Use fast and slow pointers for cycles, and remember prev/curr/next for reversing.
+
+> If you’re getting stuck on the start or end of a list
+→ Add a dummy node to make your life easier.
+
+/-----
+
+> If it’s about strings, like checking patterns or palindromes
+→ Sliding window, hash maps, and stacks will help you a lot.
+
+> If you need to search for a part inside a string
+→ Try trie, rolling hash, or a special string search method.
+
+/-----
+
+> If your simple solution is too slow
+→ Check if you’re solving the same subproblem again and again. If yes, use dynamic programming.
+
+> If greedy seems to work, make sure taking the best choice each time will really solve it all.
+
+/-----
 
 ---
 
