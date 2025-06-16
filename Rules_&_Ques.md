@@ -1018,6 +1018,142 @@ public void dfs(int u, int parent, int[] disc, int[] low, List<List<Integer>> ad
 }
 ```
 
+## 📚 Stacks and Queues
+
+### 🔹 Problem: Implement a Stack using an Array
+
+#### Brute Force (Static size, no dynamic resizing):
+```java
+class Stack {
+    int[] arr = new int[1000];
+    int top = -1;
+
+    void push(int x) {
+        if (top == arr.length - 1) return;
+        arr[++top] = x;
+    }
+
+    int pop() {
+        if (top == -1) return -1;
+        return arr[top--];
+    }
+
+    int peek() {
+        if (top == -1) return -1;
+        return arr[top];
+    }
+}
+```
+
+#### Optimized (Dynamic resizing using ArrayList):
+```java
+class Stack {
+    List<Integer> list = new ArrayList<>();
+
+    void push(int x) { list.add(x); }
+
+    int pop() {
+        if (list.isEmpty()) return -1;
+        return list.remove(list.size() - 1);
+    }
+
+    int peek() {
+        if (list.isEmpty()) return -1;
+        return list.get(list.size() - 1);
+    }
+}
+```
+
+---
+
+## 📊 Sorting and Searching
+
+### 🔹 Problem: Binary Search
+
+#### Brute Force (Linear Search):
+```java
+int linearSearch(int[] arr, int target) {
+    for (int i = 0; i < arr.length; i++) {
+        if (arr[i] == target) return i;
+    }
+    return -1;
+}
+```
+
+#### Optimized (Binary Search - sorted array):
+```java
+int binarySearch(int[] arr, int target) {
+    int left = 0, right = arr.length - 1;
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (arr[mid] == target) return mid;
+        else if (arr[mid] < target) left = mid + 1;
+        else right = mid - 1;
+    }
+    return -1;
+}
+```
+
+---
+
+## 💡 Dynamic Programming
+
+### 🔹 Problem: Fibonacci Number
+
+#### Brute Force (Recursive):
+```java
+int fib(int n) {
+    if (n <= 1) return n;
+    return fib(n - 1) + fib(n - 2);
+}
+```
+
+#### Optimized (DP with Memoization):
+```java
+int fib(int n, int[] memo) {
+    if (n <= 1) return n;
+    if (memo[n] != 0) return memo[n];
+    return memo[n] = fib(n - 1, memo) + fib(n - 2, memo);
+}
+```
+
+---
+
+## 🌀 Backtracking
+
+### 🔹 Problem: Generate All Subsets (Backtracking)
+
+#### Brute Force (Iterative with bit masking):
+```java
+List<List<Integer>> subsets(int[] nums) {
+    List<List<Integer>> res = new ArrayList<>();
+    int n = nums.length;
+    for (int i = 0; i < (1 << n); i++) {
+        List<Integer> subset = new ArrayList<>();
+        for (int j = 0; j < n; j++) {
+            if ((i & (1 << j)) != 0) subset.add(nums[j]);
+        }
+        res.add(subset);
+    }
+    return res;
+}
+```
+
+#### Optimized (Recursive Backtracking):
+```java
+void backtrack(int[] nums, int start, List<Integer> curr, List<List<Integer>> res) {
+    res.add(new ArrayList<>(curr));
+    for (int i = start; i < nums.length; i++) {
+        curr.add(nums[i]);
+        backtrack(nums, i + 1, curr, res);
+        curr.remove(curr.size() - 1);
+    }
+}
+```
+
+---
+
+
 
 ## 📚 Stacks and Queues
 16. Implement a stack using an array.  
