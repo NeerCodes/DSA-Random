@@ -57,4 +57,55 @@ Two Pointers is one of the most frequently asked patterns in technical interview
 - [Find K Closest Elements](https://leetcode.com/problems/find-k-closest-elements/)
 - [Shortest Distance to a Character](https://leetcode.com/problems/shortest-distance-to-a-character/)
 
-... (Content trimmed for brevity, full content included in actual file)
+
+
+
+
+## 🔸 2. Slow & Fast Pointers
+
+**Concept:** Use two pointers with different speeds. Common in cycle detection, linked list problems, sliding window, etc.
+![2p2](https://github.com/user-attachments/assets/f9ca672e-0ee5-4e6b-af52-4986196f47c3)
+
+
+### ➤ Linked List Operations
+- [★ Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/)
+- [Linked List Cycle II](https://leetcode.com/problems/linked-list-cycle-ii/)
+- [Remove Nth Node From End of List](https://leetcode.com/problems/remove-nth-node-from-end-of-list/)
+- [Rotate List](https://leetcode.com/problems/rotate-list/)
+- [Reorder List](https://leetcode.com/problems/reorder-list/)
+- [Palindrome Linked List](https://leetcode.com/problems/palindrome-linked-list/)
+
+### ➤ Cyclic Detection
+- [★ Find the Duplicate Number](https://leetcode.com/problems/find-the-duplicate-number/)
+- [Circular Array Loop](https://leetcode.com/problems/circular-array-loop/)
+
+### ➤ Sliding Window / Caterpillar Method
+- [★ Number of Subarrays With Bounded Maximum](https://leetcode.com/problems/number-of-subarrays-with-bounded-maximum/)
+- [Find K-th Smallest Pair Distance](https://leetcode.com/problems/find-k-th-smallest-pair-distance/)
+- [Moving Stones Until Consecutive II](https://leetcode.com/problems/moving-stones-until-consecutive-ii/)
+- [Count Pairs of Nodes](https://leetcode.com/problems/count-pairs-of-nodes/)
+- [Count Binary Substrings](https://leetcode.com/problems/count-binary-substrings/)
+- [K-diff Pairs in an Array](https://leetcode.com/problems/k-diff-pairs-in-an-array/)
+
+### ➤ Rotation
+- [★ Rotating the Box](https://leetcode.com/problems/rotating-the-box/)
+- [Rotate Array](https://leetcode.com/problems/rotate-array/)
+
+### ➤ String
+- [★ String Compression](https://leetcode.com/problems/string-compression/)
+- [Last Substring in Lexicographical Order](https://leetcode.com/problems/last-substring-in-lexicographical-order/)
+
+### ➤ Remove Duplicate
+- [★ Remove Duplicates From Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/)
+- [Remove Duplicates From Sorted Array II](https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii/)
+- [Remove Duplicates From Sorted List II](https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/)
+- [Duplicate Zeros](https://leetcode.com/problems/duplicate-zeros/)
+
+### ➤ Others
+- [Statistics From a Large Sample](https://leetcode.com/problems/statistics-from-a-large-sample/)
+- [Partition Labels](https://leetcode.com/problems/partition-labels/)
+- [Magical String](https://leetcode.com/problems/magical-string/)
+- [Friends of Appropriate Ages](https://leetcode.com/problems/friends-of-appropriate-ages/)
+- [Longest Mountain in Array](https://leetcode.com/problems/longest-mountain-in-array/)
+- [Shortest Subarray to Be Removed to Make Array Sorted](https://leetcode.com/problems/shortest-subarray-to-be-removed-to-make-array-sorted/)
+
