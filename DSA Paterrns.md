@@ -8,6 +8,8 @@ Two Pointers is one of the most frequently asked patterns in technical interview
 ## 🔸 1. Running from Both Ends of an Array
 
 **Concept:** Start with pointers at both ends and move toward the center while processing.
+![2pointers1](https://github.com/user-attachments/assets/aa5fda30-8c34-4d04-bdf6-318d6af0c898)
+
 
 ### ➤ 2 Sum Pattern
 - [★ Two Sum II - Input Array Is Sorted](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/)
