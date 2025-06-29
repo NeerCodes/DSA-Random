@@ -1,5 +1,5 @@
 # DSA-Random
-Random DSA Patterns (Algorithms and important problems) for revision.
+Standard DSA Questions (Algorithms and important problems) for revision.
 
 ## ARRAYS
 #### Maximum Subarray (Kadane's Algorithm)
