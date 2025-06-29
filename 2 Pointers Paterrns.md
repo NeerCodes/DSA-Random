@@ -22,6 +22,7 @@
 
 # 🧠 Sliding Window Patterns: https://lnkd.in/gb5NeskQ
 
+---
 
 # 🧠 Two Pointers
 Two Pointers is one of the most frequently asked patterns in technical interviews. Here's a categorized list of problems with links. The goal is to provide you with a structured roadmap for mastering this topic.
