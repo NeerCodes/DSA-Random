@@ -109,3 +109,61 @@ Two Pointers is one of the most frequently asked patterns in technical interview
 - [Longest Mountain in Array](https://leetcode.com/problems/longest-mountain-in-array/)
 - [Shortest Subarray to Be Removed to Make Array Sorted](https://leetcode.com/problems/shortest-subarray-to-be-removed-to-make-array-sorted/)
 
+
+
+
+## 🔸 3. Running from Beginning of Two Arrays / Merging Two Arrays
+
+**Concept:** Use two pointers to iterate over two arrays/lists from the start. Often used in merging, comparing, or synchronizing data.
+![2p3](https://github.com/user-attachments/assets/50b74042-a65f-4f68-9d23-9800c0acedc5)
+
+
+### ➤ Sorted Arrays
+- [★ Merge Sorted Array](https://leetcode.com/problems/merge-sorted-array/)
+- [Heaters](https://leetcode.com/problems/heaters/)
+- [Find the Distance Value Between Two Arrays](https://leetcode.com/problems/find-the-distance-value-between-two-arrays/)
+
+### ➤ Intersections / LCA
+- [★ Intersection of Two Linked Lists](https://leetcode.com/problems/intersection-of-two-linked-lists/)
+- [Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/)
+- [Intersection of Two Arrays II](https://leetcode.com/problems/intersection-of-two-arrays-ii/)
+
+### ➤ Substring / Pattern Matching
+- [★ Implement strStr()](https://leetcode.com/problems/implement-strstr/)
+- [Longest Word in Dictionary Through Deleting](https://leetcode.com/problems/longest-word-in-dictionary-through-deleting/)
+- [Long Pressed Name](https://leetcode.com/problems/long-pressed-name/)
+- [Longest Uncommon Subsequence II](https://leetcode.com/problems/longest-uncommon-subsequence-ii/)
+- [Compare Version Numbers](https://leetcode.com/problems/compare-version-numbers/)
+- [Camelcase Matching](https://leetcode.com/problems/camelcase-matching/)
+- [Expressive Words](https://leetcode.com/problems/expressive-words/)
+
+### ➤ Median Finder
+- [★ Find Median From Data Stream](https://leetcode.com/problems/find-median-from-data-stream/)
+
+### ➤ Meet-in-the-middle / Binary Search
+- [★ Partition Array Into Two Arrays to Minimize Sum Difference](https://leetcode.com/problems/partition-array-into-two-arrays-to-minimize-sum-difference/)
+- [Closest Subsequence Sum](https://leetcode.com/problems/closest-subsequence-sum/)
+- [Ways to Split Array Into Three Subarrays](https://leetcode.com/problems/ways-to-split-array-into-three-subarrays/)
+- [3Sum Closest](https://leetcode.com/problems/3sum-closest/)
+- [Valid Triangle Number](https://leetcode.com/problems/valid-triangle-number/)
+
+### ➤ Others
+- [Shortest Unsorted Continuous Subarray](https://leetcode.com/problems/shortest-unsorted-continuous-subarray/)
+- [Most Profit Assigning Work](https://leetcode.com/problems/most-profit-assigning-work/)
+- [Largest Merge of Two Strings](https://leetcode.com/problems/largest-merge-of-two-strings/)
+- [Swap Adjacent in LR String](https://leetcode.com/problems/swap-adjacent-in-lr-string/)
+
+---
+
+## 🔸 4. Split & Merge of an Array / Divide & Conquer
+
+**Concept:** First divide the array/list, and then apply two pointer logic while merging.
+![2p4](https://github.com/user-attachments/assets/37dc8596-143f-48fa-8b40-dc7194b30b07)
+
+
+### ➤ Partition
+- [★ Partition List](https://leetcode.com/problems/partition-list/)
+
+### ➤ Sorting
+- [★ Sort List](https://leetcode.com/problems/sort-list/)
+
