@@ -27,8 +27,6 @@
 # 🧠 Two Pointers
 Two Pointers is one of the most frequently asked patterns in technical interviews. Here's a categorized list of problems with links. The goal is to provide you with a structured roadmap for mastering this topic.
 
----
-
 ## 🔸 1. Running from Both Ends of an Array
 
 **Concept:** Start with pointers at both ends and move toward the center while processing.
